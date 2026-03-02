@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AWS Cloud Infrastructure Specialist focused on high availability, Auto Scaling, RDS Multi-AZ, and secure cloud architecture.">
+
+    <title>Srestha Mridha | AWS Cloud Infrastructure Specialist</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="logo">Srestha Mridha</div>
+    <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <h1>High-Availability AWS Architectures Built for Real-World Failure</h1>
+    <p>Auto Scaling • Multi-AZ • Secure Networking • Cost-Aware Design</p>
+    <a href="#projects" class="cta-btn">View Architecture Projects</a>
+</section>
+
+<!-- Stats -->
+<section class="stats">
+    <div class="stat">
+        <h3>High Availability</h3>
+        <p>Multi-AZ deployments with automated failover</p>
+    </div>
+
+    <div class="stat">
+        <h3>Self-Healing</h3>
+        <p>Auto Scaling with health checks and replacement</p>
+    </div>
+
+    <div class="stat">
+        <h3>Secure By Design</h3>
+        <p>Private subnets, SG chaining, OAC integration</p>
+    </div>
+</section>
+
+<!-- Projects (Moved Up for Better Flow) -->
+<section id="projects" class="section reveal">
+    <h2>Projects</h2>
+
+    <div class="card">
+        <h3>High Availability 3-Tier SaaS Deployment</h3>
+        <p>Custom VPC • ALB • ASG • Private RDS Multi-AZ</p>
+        <a href="projects/saas-3tier.html" class="project-link">View Full Case Study →</a>
+    </div>
+
+    <div class="card">
+        <h3>RDS Multi-AZ Production Deployment</h3>
+        <p>MySQL 8.4 • Automated Backups • Failover Testing</p>
+        <a href="projects/rds-ha.html" class="project-link">View Full Case Study →</a>
+    </div>
+
+    <div class="card">
+        <h3>Secure Static Hosting with CloudFront</h3>
+        <p>S3 Versioning • OAC • HTTPS Enforcement</p>
+        <a href="projects/s3-cloudfront.html" class="project-link">View Full Case Study →</a>
+    </div>
+</section>
+
+<!-- About -->
+<section id="about" class="section reveal">
+    <h2>About</h2>
+    <p>
+        I design and validate production-grade AWS architectures focused on high availability,
+        security, and cost optimization. My approach emphasizes resilience, scalability,
+        and operational discipline under real-world failure conditions.
+    </p>
+</section>
+
+<!-- Architecture Philosophy -->
+<section class="section reveal">
+    <h2>Architecture Philosophy</h2>
+    <p>
+        My infrastructure design follows a layered, high-availability model:
+        Users → Application Load Balancer → Stateless EC2 (Auto Scaling) →
+        Private RDS (Multi-AZ) → S3 for storage, logs, and backups.
+    </p>
+    <p>
+        Systems are designed to tolerate AZ failure, instance failure,
+        and traffic spikes without manual intervention.
+    </p>
+</section>
+
+<!-- Technical Stack -->
+<section class="section reveal">
+    <h2>Technical Stack</h2>
+
+    <div class="tech-grid">
+
+        <div>
+            <h3>Networking</h3>
+            <ul>
+                <li>Custom VPC (10.0.0.0/16)</li>
+                <li>Public & Private Subnets (2 AZ)</li>
+                <li>Internet Gateway</li>
+                <li>NAT Gateway</li>
+                <li>Route Tables</li>
+                <li>Security Group Chaining</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>Compute</h3>
+            <ul>
+                <li>EC2</li>
+                <li>Launch Templates</li>
+                <li>Auto Scaling Groups</li>
+                <li>Target Tracking Policies</li>
+                <li>Spot Instances</li>
+                <li>User Data Automation</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>Database</h3>
+            <ul>
+                <li>RDS MySQL 8.4</li>
+                <li>Multi-AZ Deployment</li>
+                <li>PITR Backups</li>
+                <li>KMS Encryption</li>
+                <li>Performance Insights</li>
+                <li>Deletion Protection</li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>Storage & CDN</h3>
+            <ul>
+                <li>S3 Versioning</li>
+                <li>Lifecycle Policies</li>
+                <li>CloudFront</li>
+                <li>Origin Access Control (OAC)</li>
+                <li>HTTPS Enforcement</li>
+            </ul>
+        </div>
+
+    </div>
+</section>
+
+<!-- Operational Testing -->
+<section class="section reveal">
+    <h2>Operational & Resilience Testing</h2>
+    <ul>
+        <li>Verified ASG self-healing by terminating instances</li>
+        <li>Validated RDS Multi-AZ failover behavior</li>
+        <li>Tested S3 private access (AccessDenied verification)</li>
+        <li>Configured IAM Instance Profiles (S3 + SSM)</li>
+        <li>Implemented private EC2 access via SSM (No SSH)</li>
+        <li>Performed full environment teardown for cost control</li>
+    </ul>
+</section>
+
+<!-- Cost Optimization -->
+<section class="section reveal">
+    <h2>Cost Optimization Strategy</h2>
+    <ul>
+        <li>Spot vs On-Demand instance tradeoffs</li>
+        <li>Right-sized RDS instance selection</li>
+        <li>gp3 storage with defined IOPS</li>
+        <li>Lifecycle expiration for S3 non-current versions</li>
+        <li>Environment teardown after testing</li>
+    </ul>
+</section>
+
+<!-- Learning Roadmap -->
+<section class="section reveal">
+    <h2>Currently Expanding Into</h2>
+    <ul>
+        <li>Git + CI/CD automation</li>
+        <li>GitHub Actions → AWS deployments</li>
+        <li>Infrastructure as Code (Terraform - planned)</li>
+    </ul>
+</section>
+
+<!-- Skills -->
+<section id="skills" class="section reveal">
+    <h2>Core Skills</h2>
+    <ul class="skills-list">
+        <li>EC2 + Auto Scaling</li>
+        <li>Application Load Balancer</li>
+        <li>RDS Multi-AZ</li>
+        <li>S3 + CloudFront</li>
+        <li>Route 53</li>
+        <li>IAM + Security Groups</li>
+    </ul>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="section reveal">
+    <h2>Contact</h2>
+    <p>If you're looking to deploy high-availability AWS infrastructure or secure cloud architectures, feel free to reach out.</p>
+    <p>Email: sresthamridha@email.com</p>
+    <p>LinkedIn: <a href="https://linkedin.com/in/srestha-mridha" target="_blank">linkedin.com/in/srestha-mridha</a></p>
+    <p>GitHub: <a href="https://github.com/SresthaMridha" target="_blank">github.com/SresthaMridha</a></p>
+    
+</section>
+
+<script src="js/script.js"></script>
+
+<footer class="footer">
+    <p>© 2026 Srestha Mridha</p>
+    <p>Designed & Deployed as a CI/CD Practice Environment</p>
+</footer>
+
+</body>
+</html>

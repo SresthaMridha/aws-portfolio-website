@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RDS Multi-AZ High Availability Deployment | Srestha Mridha</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">Srestha Mridha</div>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+    </ul>
+</nav>
+
+<section class="section">
+
+<h1>RDS MySQL 8.4 Multi-AZ High Availability Deployment</h1>
+
+<p>
+Designed and deployed a production-ready Amazon RDS MySQL 8.4 database 
+with Multi-AZ high availability, automated backups, encryption, 
+provisioned IOPS, and failover protection.
+</p>
+
+<div class="section-divider"></div>
+
+<div class="project-block">
+<h2>Objective</h2>
+<ul>
+    <li>Deploy a highly available MySQL database</li>
+    <li>Enable synchronous replication across AZs</li>
+    <li>Configure automated backups with PITR</li>
+    <li>Implement encryption using AWS KMS</li>
+    <li>Enable deletion protection</li>
+    <li>Validate manual snapshot functionality</li>
+</ul>
+</div>
+
+<div class="section-divider"></div>
+
+<div class="project-block">
+<h2>Architecture Overview</h2>
+
+<p>
+Application → RDS Primary (AZ-1) → Synchronous Replication → Standby (AZ-2)
+</p>
+
+<ul>
+    <li>Multi-AZ enabled</li>
+    <li>Automatic failover</li>
+    <li>Standby instance not directly readable</li>
+    <li>Data replicated synchronously</li>
+</ul>
+</div>
+<div class="section-divider"></div>
+<div class="project-block">
+
+<h2>Database Configuration</h2>
+
+<ul>
+    <li>Engine: MySQL 8.4.7</li>
+    <li>Instance Class: db.m7g.large</li>
+    <li>vCPU: 2</li>
+    <li>RAM: 8 GB</li>
+    <li>Storage: 200 GiB (gp3)</li>
+    <li>Provisioned IOPS: 3000</li>
+    <li>Storage Throughput: 125 MiB/s</li>
+    <li>Storage Autoscaling Enabled</li>
+</ul>
+</div>
+<div class="section-divider"></div>
+<div class="project-block">
+
+<h2>High Availability Design</h2>
+
+<ul>
+    <li>Multi-AZ: Enabled</li>
+    <li>Secondary Zone: us-east-1a</li>
+    <li>Automatic failover</li>
+    <li>Deletion protection: Enabled</li>
+    <li>Public access: Disabled</li>
+</ul>
+</div>
+<div class="section-divider"></div>
+<div class="project-block">
+
+<h2>Backup & Recovery Strategy</h2>
+
+<ul>
+    <li>Automated backups enabled (7 days retention)</li>
+    <li>Point-in-Time Recovery supported</li>
+    <li>Manual snapshot created and verified</li>
+    <li>Copy tags to snapshots enabled</li>
+</ul>
+</div>
+<div class="section-divider"></div>
+<div class="project-block">
+
+<h2>Security & Monitoring</h2>
+
+<ul>
+    <li>KMS Encryption enabled</li>
+    <li>AWS-managed KMS key (aws/rds)</li>
+    <li>Performance Insights enabled</li>
+    <li>Enhanced Monitoring enabled</li>
+    <li>Granularity: 60 seconds</li>
+    <li>Monitoring IAM role configured</li>
+</ul>
+</div>
+
+<div class="section-divider"></div>
+<div class="project-block">
+
+<h2>Failure & Validation</h2>
+
+<ul>
+    <li>Confirmed Multi-AZ deployment active</li>
+    <li>Verified snapshot creation success</li>
+    <li>Validated automated backup window</li>
+    <li>Confirmed deletion protection enforced</li>
+</ul>
+</div>
+
+<div class="section-divider"></div>
+
+<h2>Screenshots & Evidence</h2>
+
+<div class="image-grid">
+    <img src="../assets/images/rds-ha/architecture.png" alt="Architecture Diagram">
+    <img src="../assets/images/rds-ha/summary.png" alt="RDS Summary">
+    <img src="../assets/images/rds-ha/configuration.png" alt="Configuration Details">
+    <img src="../assets/images/rds-ha/maintenance.png" alt="Maintenance Window">
+    <img src="../assets/images/rds-ha/backups.png" alt="Backup Configuration">
+    <img src="../assets/images/rds-ha/snapshots.png" alt="Snapshot Verification">
+</div>
+
+<div class="section-divider"></div>
+
+<h2>Outcome</h2>
+
+<p>
+Successfully deployed a production-grade RDS Multi-AZ architecture 
+with automated backups, encryption, monitoring, and failover protection.
+The system ensures durability, resilience, and operational safety.
+</p>
+
+</section>
+
+<footer class="footer">
+    <p>© 2026 Srestha Mridha</p>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="">
+</div>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

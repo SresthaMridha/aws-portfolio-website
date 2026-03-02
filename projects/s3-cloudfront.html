@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secure Static Website via S3 + CloudFront | Srestha Mridha</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">Srestha Mridha</div>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+    </ul>
+</nav>
+
+<section class="section">
+
+<h1>Secure Static Website Deployment using S3 + CloudFront (OAC)</h1>
+
+<p>
+Deployed a production-style static website using Amazon S3 as a private origin 
+and CloudFront as a secure CDN layer with HTTPS enforcement and Origin Access Control (OAC).
+Direct S3 access was intentionally blocked to ensure secure architecture.
+</p>
+
+<div class="section-divider"></div>
+<div class="project-block">
+
+<h2>Objective</h2>
+<ul>
+    <li>Host a static website securely</li>
+    <li>Prevent direct S3 public access</li>
+    <li>Use CloudFront as CDN layer</li>
+    <li>Enforce HTTPS</li>
+    <li>Implement Origin Access Control (OAC)</li>
+</ul>
+</div>
+<div class="section-divider"></div>
+<div class="project-block">
+
+<h2>Architecture Overview</h2>
+
+<p>
+User → CloudFront (HTTPS) → Secure Origin Request (OAC) → Private S3 Bucket
+</p>
+
+<ul>
+    <li>CloudFront handles public traffic</li>
+    <li>S3 bucket remains private</li>
+    <li>Direct S3 URL returns Access Denied</li>
+    <li>Edge caching enabled</li>
+</ul>
+</div>
+<div class="section-divider"></div>
+<div class="project-block">
+
+<h2>S3 Bucket Configuration</h2>
+
+<ul>
+    <li>Bucket Region: eu-west-2 (London)</li>
+    <li>Block Public Access: Enabled</li>
+    <li>Bucket Versioning: Enabled</li>
+    <li>MFA Delete: Disabled</li>
+    <li>Lifecycle rule: Non-current version expiration</li>
+</ul>
+</div>
+<div class="section-divider"></div>
+<div class="project-block">
+
+<h2>CloudFront Configuration</h2>
+
+<ul>
+    <li>Origin: Private S3 bucket</li>
+    <li>Origin Access Control (OAC) enabled</li>
+    <li>Viewer protocol policy: Redirect HTTP → HTTPS</li>
+    <li>Price class: All edge locations</li>
+    <li>Default root object: index.html</li>
+</ul>
+</div>
+<div class="section-divider"></div>
+<div class="project-block">
+
+<h2>Security Validation</h2>
+
+<ul>
+    <li>Verified CloudFront domain loads website successfully</li>
+    <li>Confirmed HTTPS enforced</li>
+    <li>Accessing S3 URL directly returns "Access Denied"</li>
+    <li>Public bucket access completely blocked</li>
+</ul>
+</div>
+<div class="section-divider"></div>
+
+<h2>Screenshots & Evidence</h2>
+
+<div class="image-grid">
+    <img src="../assets/images/s3-cloudfront/01-s3-bucket-properties.png" alt="S3 Bucket Properties">
+    <img src="../assets/images/s3-cloudfront/02-s3-permissions.png" alt="S3 Permissions - Block Public Access">
+    <img src="../assets/images/s3-cloudfront/03-cloudfront-distribution.png" alt="CloudFront Distribution Settings">
+    <img src="../assets/images/s3-cloudfront/04-cloudfront-website-access.png" alt="Website Access via CloudFront">
+    <img src="../assets/images/s3-cloudfront/05-cloudfront-access-denied-error.png" alt="Access Denied Direct S3 URL">
+    <img src="../assets/images/s3-cloudfront/06-architecture-diagram.png" alt="Architecture Diagram">
+</div>
+
+<div class="section-divider"></div>
+
+<h2>Outcome</h2>
+
+<p>
+Successfully implemented a secure static hosting architecture where 
+CloudFront acts as the only public entry point, while the S3 bucket 
+remains fully private. The configuration ensures security, performance, 
+and controlled public exposure.
+</p>
+
+</section>
+
+<footer class="footer">
+    <p>© 2026 Srestha Mridha</p>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="">
+</div>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

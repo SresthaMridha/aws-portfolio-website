@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>High Availability 3-Tier SaaS Deployment | Srestha Mridha</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="logo">Srestha Mridha</div>
+    <ul class="nav-links">
+        <li><a href="../index.html">Home</a></li>
+    </ul>
+</nav>
+
+<section class="section">
+
+    <h1>High Availability 3-Tier SaaS Architecture</h1>
+    <p>
+        Designed and deployed a production-style high availability web architecture
+        using Application Load Balancer, Auto Scaling Group, and Multi-AZ
+        compute distribution. The system was built to tolerate instance failure,
+        distribute traffic across availability zones, and validate self-healing behavior.
+    </p>
+
+    <div class="section-divider"></div>
+
+    <!-- Objective -->
+    <div class="project-block">
+    <h2>Objective</h2>
+    <p>Build a resilient, scalable web infrastructure that:</p>
+    <ul>
+        <li>Distributes traffic across AZs</li>
+        <li>Performs health checks</li>
+        <li>Replaces failed instances</li>
+    </ul>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Architecture Overview -->
+    <div class="project-block">
+
+    <h2>Architecture Overview</h2>
+    <p>
+        Traffic flow:
+    </p>
+    <p>
+        <strong>User → Internet-Facing ALB → Target Group (HTTP:80 Health Check) →
+        Auto Scaling Group → EC2 Instances (AZ-1 & AZ-2)</strong>
+    </p>
+
+    <ul>
+        <li>Application Load Balancer deployed across 2 AZs</li>
+        <li>Target Group configured with health check path: "/"</li>
+        <li>Health threshold: 2 successful checks</li>
+        <li>Auto Scaling Group capacity: Min 1 | Max 2</li>
+        <li>CPU-based scaling policy at 50%</li>
+    </ul>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Infrastructure Components -->
+    <div class="project-block">
+    <h2>Infrastructure Components</h2>
+
+    <h3>Application Load Balancer</h3>
+    <ul>
+        <li>Type: Application</li>
+        <li>Scheme: Internet-facing</li>
+        <li>IPv4 enabled</li>
+        <li>Attached to public subnets across 2 AZs</li>
+        <li>Routes traffic only to healthy targets</li>
+    </ul>
+
+    <h3>Target Group</h3>
+    <ul>
+        <li>Protocol: HTTP</li>
+        <li>Port: 80</li>
+        <li>Target Type: Instance</li>
+        <li>Health check path: "/"</li>
+        <li>Observed healthy target before routing live traffic</li>
+    </ul>
+
+    <h3>Auto Scaling Group</h3>
+    <ul>
+        <li>Min Capacity: 1</li>
+        <li>Max Capacity: 2</li>
+        <li>Desired Capacity: 1</li>
+        <li>Balanced AZ distribution</li>
+        <li>CPU Target Tracking Policy (50%)</li>
+    </ul>
+
+    <h3>EC2 Launch Template</h3>
+    <ul>
+        <li>Amazon Linux</li>
+        <li>Instance Type: t2.micro</li>
+        <li>User Data for automated Apache installation</li>
+        <li>Security group allows traffic only from ALB</li>
+        <li>No direct public inbound access</li>
+    </ul>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- User Data -->
+    <div class="project-block">
+    <h2>Instance Bootstrapping (User Data)</h2>
+
+    <pre style="background:#111827; padding:15px; overflow:auto;">
+#!/bin/bash
+yum update -y
+yum install httpd -y
+systemctl start httpd
+systemctl enable httpd
+echo "Portfolio Demo - EC2 via ASG" > /var/www/html/index.html
+    </pre>
+
+    <p>
+        This ensures immutable provisioning — each instance launches
+        fully configured without manual intervention.
+    </p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Validation & Testing -->
+    <div class="project-block">
+    <h2>Validation & Failure Testing</h2>
+
+    <h3>Traffic Validation</h3>
+    <ul>
+        <li>Accessed ALB DNS endpoint</li>
+        <li>Confirmed Apache page rendered successfully</li>
+        <li>Verified target health status in Target Group</li>
+    </ul>
+
+    <h3>Self-Healing Test</h3>
+    <ul>
+        <li>Manually terminated running EC2 instance</li>
+        <li>ASG detected unhealthy state</li>
+        <li>Replacement instance launched automatically</li>
+        <li>Target group marked new instance healthy</li>
+        <li>No manual traffic rerouting required</li>
+    </ul>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Scaling Logic -->
+    <div class="project-block">
+    <h2>Scaling Strategy</h2>
+    <ul>
+        <li>Target tracking scaling policy based on CPU utilization</li>
+        <li>Threshold: 50%</li>
+        <li>Prevents over-provisioning</li>
+        <li>Maintains availability during traffic spikes</li>
+    </ul>
+    </div>
+
+
+    <div class="section-divider"></div>
+
+    <!-- Security Considerations -->
+    <div class="project-block">
+    <h2>Security Design</h2>
+    <ul>
+        <li>Instances deployed in private subnets</li>
+        <li>Security Group chaining (ALB → EC2 only)</li>
+        <li>No open SSH access required for validation</li>
+        <li>Public access abstracted via ALB only</li>
+    </ul>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- Screenshots Section -->
+    <h2>Screenshots & Evidence</h2>
+
+    <div class="image-grid">
+        <img src="../assets/images/saas-3tier/architecture.png" alt="Architecture Diagram">
+        <img src="../assets/images/saas-3tier/alb.png" alt="ALB Details">
+        <img src="../assets/images/saas-3tier/target-group.png" alt="Target Group Health">
+        <img src="../assets/images/saas-3tier/asg.png" alt="ASG Configuration">
+        <img src="../assets/images/saas-3tier/ec2.png" alt="EC2 Instance Details">
+        <img src="../assets/images/saas-3tier/browser.png" alt="Browser Output">
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h2>Outcome</h2>
+    <p>
+        Successfully implemented a highly available, self-healing,
+        horizontally scalable web architecture using AWS managed services.
+        The infrastructure was validated under failure simulation
+        and confirmed to automatically recover without manual intervention.
+    </p>
+
+</section>
+
+<footer class="footer">
+    <p>© 2026 Srestha Mridha</p>
+</footer>
+
+<!-- Lightbox Modal -->
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close" id="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="">
+</div>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>
