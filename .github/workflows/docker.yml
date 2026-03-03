@@ -12,18 +12,17 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Optional test step (if you add tests later)
     - name: Verify files exist
       run: ls -la
 
     - name: Login to Docker Hub
       uses: docker/login-action@v3
       with:
-        username: ${{ secrets.sidero2026 }}
-        password: ${{ secrets.syULVgThJFY6Cj8485KJdasi }}
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t yourdockerhubusername/portfolio-site:latest .
+      run: docker build -t sidero2026/portfolio:latest .
 
     - name: Push Docker image
-      run: docker push yourdockerhubusername/portfolio-site:latest
+      run: docker push sidero2026/portfolio:latest
