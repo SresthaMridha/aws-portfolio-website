@@ -1,10 +1,10 @@
 ![AWS](https://img.shields.io/badge/AWS-Infrastructure-232F3E?style=flat&logo=amazonaws)
 ![Status](https://img.shields.io/badge/Status-Active-success)
-![CI/CD](https://img.shields.io/badge/CI/CD-Planned-blue)
+![CI/CD](https://img.shields.io/badge/CI/CD-Implemented-brightgreen)
 
-# AWS Cloud Infrastructure Portfolio
+# AWS Cloud Infrastructure & Automation Portfolio
 
-This repository contains my production-style AWS architecture portfolio.
+This repository contains my production-style AWS architecture portfolio and CI automation workflows.
 
 The website documents real infrastructure deployments built with a focus on:
 
@@ -15,8 +15,7 @@ The website documents real infrastructure deployments built with a focus on:
 - Secure networking
 - Encryption and backup strategy
 - Cost-aware design principles
-
-The project also serves as a CI/CD practice environment and will be expanded with automated deployment workflows.
+- CI/CD automation & containerized artifact publishing
 
 ---
 
@@ -24,63 +23,74 @@ The project also serves as a CI/CD practice environment and will be expanded wit
 
 ### 1️⃣ High Availability 3-Tier SaaS Architecture
 
-**Architecture Flow**
-
 User → Application Load Balancer → Auto Scaling Group → EC2 → Private RDS
-
-Key Highlights:
 
 - Custom VPC across multiple Availability Zones
 - Internet-facing ALB with health checks
-- Auto Scaling Group (CPU target tracking)
+- CPU-based Auto Scaling policies
 - Launch Template with automated bootstrapping
 - Private subnet compute layer
-- Self-healing instance replacement validation
+- Self-healing validation testing
 
 ---
 
 ### 2️⃣ RDS MySQL 8.4 Multi-AZ Deployment
-
-Production-ready database configuration with:
 
 - Multi-AZ synchronous replication
 - db.m7g.large instance class
 - gp3 storage (200 GiB, 3000 IOPS)
 - Automated backups (7-day retention)
 - Point-in-Time Recovery
-- Manual snapshot validation
 - KMS encryption enabled
 - Deletion protection
-- Performance Insights & Enhanced Monitoring
+- Performance Insights & monitoring
 
 ---
 
 ### 3️⃣ Secure Static Website Hosting (S3 + CloudFront)
 
-Secure CDN-based static hosting with:
-
 - Private S3 origin
-- Block Public Access enabled
+- Block Public Access enforced
 - Origin Access Control (OAC)
-- HTTPS enforcement
+- HTTPS-only access
 - CloudFront edge caching
 - Lifecycle rules for cost control
-- Access Denied validation for direct S3 URL
+
+---
+
+### 4️⃣ CI Pipeline with GitHub Actions & Docker
+
+Automated workflow triggered on push to `main`:
+
+Local → GitHub → GitHub Actions Runner → Docker Build → Docker Hub
+
+- YAML-based GitHub Actions workflow
+- Secure secret injection for Docker authentication
+- Docker image build via custom Dockerfile (nginx base)
+- Automated artifact publishing to Docker Hub
+- Local validation via container runtime
 
 ---
 
 ## 🛠 Tech Stack
 
+**Cloud Infrastructure**
 - Amazon EC2
 - Auto Scaling Groups
 - Application Load Balancer
 - Amazon RDS (Multi-AZ)
 - Amazon S3
 - Amazon CloudFront
-- IAM & Security Groups
 - VPC (public/private subnets, route tables, NAT)
-- Git & GitHub
-- CI/CD (planned expansion)
+- IAM & Security Groups
+
+**Automation & DevOps**
+- Git (CLI workflow)
+- GitHub Actions
+- CI pipeline design
+- Docker
+- Containerization
+- Artifact publishing (Docker Hub)
 
 ---
 
@@ -93,15 +103,14 @@ aws-portfolio-website/
 ├── js/
 ├── projects/
 ├── assets/
+└── .github/workflows/
 └── README.md
-
 
 ---
 
-## 🚀 Future Improvements
+## 🚀 Next Improvements
 
-- GitHub Actions CI/CD pipeline
-- Automated S3 deployment
+- Automated deployment to AWS EC2 via CI/CD
 - CloudFront cache invalidation workflow
 - Infrastructure as Code (Terraform)
 - Custom domain + HTTPS
@@ -110,15 +119,9 @@ aws-portfolio-website/
 
 ## 📌 Purpose
 
-This project is designed to:
+This project demonstrates:
 
-- Demonstrate hands-on AWS architecture skills
-- Showcase production-style configuration
-- Serve as a foundation for CI/CD experimentation
-- Act as a public portfolio for freelance cloud projects
-
----
-
-## 📫 Contact
-
-Open to AWS infrastructure and high-availability architecture projects.
+- Production-style AWS architecture design
+- Operational validation & resilience testing
+- Secure infrastructure configuration
+- Foundational CI/CD automation capability
