@@ -1,0 +1,29 @@
+name: Build, Test and Push Docker Image
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Optional test step (if you add tests later)
+    - name: Verify files exist
+      run: ls -la
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.sidero2026 }}
+        password: ${{ secrets.syULVgThJFY6Cj8485KJdasi }}
+
+    - name: Build Docker image
+      run: docker build -t yourdockerhubusername/portfolio-site:latest .
+
+    - name: Push Docker image
+      run: docker push yourdockerhubusername/portfolio-site:latest
