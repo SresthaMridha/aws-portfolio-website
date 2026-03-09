@@ -1,246 +1,924 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cloud Infrastructure & DevOps Engineer specializing in high availability AWS architectures, CI/CD automation, Docker containerization, and secure scalable deployments.">
 
-    <title>Srestha Mridha | Cloud Infrastructure & DevOps Automation Engineer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="css/style.css">
+<title>Srestha Mridha | Cloud Infrastructure & DevOps Automation Engineer</title>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<link rel="stylesheet" href="css/style.css">
+
 </head>
+
 
 <body>
 
+
 <!-- Navigation -->
+
+<section id="home"></section>
+
 <nav class="navbar">
-    <div class="logo">Srestha Mridha</div>
-    <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
-    </ul>
+
+<div class="logo">Srestha Mridha</div>
+
+<ul class="nav-links">
+
+<li><a href="#home">Home</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#learning">Learning</a></li>
+<li><a href="#skills">Skills</a></li>
+<li><a href="#contact">Contact</a></li>
+
+</ul>
+
 </nav>
 
+
+
 <!-- Hero -->
+
 <section class="hero">
-    <h1>High-Availability AWS Architectures & Automated Cloud Deployments</h1>
-    <p>Auto Scaling • Multi-AZ • Secure Networking • CI/CD Automation</p> 
-    <a href="#projects" class="cta-btn">View Infrastructure & Automation Projects</a>
+
+<div class="network-bg"></div>
+
+<div class="hero-content">
+
+<h1>Designing Resilient Cloud Infrastructure</h1>
+
+<p>
+AWS architectures focused on high availability,
+automation, and secure production-style deployments.
+</p>
+
+<p class="hero-current">
+Currently rebuilding these AWS architectures using Terraform Infrastructure-as-Code.
+</p>
+
+<p class="hero-availability">
+Available for cloud infrastructure projects and freelance DevOps work.
+</p>
+
+<div class="hero-buttons">
+
+<a href="#projects" class="cta-btn">View Projects</a>
+
+<a href="#contact" class="cta-btn secondary-btn">Contact</a>
+
+</div>
+
+</div>
+
 </section>
+
+
 
 <!-- Stats -->
+
 <section class="stats">
-    <div class="stat">
-        <h3>High Availability</h3>
-        <p>Multi-AZ deployments with automated failover</p>
-    </div>
 
-    <div class="stat">
-        <h3>Self-Healing</h3>
-        <p>Auto Scaling with health checks and replacement</p>
-    </div>
+<div class="stat">
+<i data-lucide="cloud"></i>
+<h3>Multi-AZ Architecture</h3>
+<p>Infrastructure deployed across availability zones with failover protection</p>
+</div>
 
-    <div class="stat">
-        <h3>Secure By Design</h3>
-        <p>Private subnets, SG chaining, OAC integration</p>
-    </div>
+<div class="stat">
+<i data-lucide="activity"></i>
+<h3>Self-Healing Systems</h3>
+<p>Auto Scaling Groups replace unhealthy instances automatically</p>
+</div>
+
+<div class="stat">
+<i data-lucide="shield"></i>
+<h3>Secure Networking</h3>
+<p>Private subnets, security group chaining and IAM-based access</p>
+</div>
+
+<div class="stat">
+<i data-lucide="cpu"></i>
+<h3>Automation</h3>
+<p>CI pipelines building container artifacts via GitHub Actions</p>
+</div>
+
 </section>
 
-<!-- Projects (Moved Up for Better Flow) -->
+<section class="architecture-preview">
+
+<div class="container">
+
+<h2>Reference Architecture</h2>
+
+<div class="architecture-diagram">
+
+<img src="assets/images/aws-ha-saas/vpc_resource_map.png"
+alt="AWS reference architecture">
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- Tech Logos -->
+
+<section class="tech-strip">
+
+<div class="container">
+
+<div class="logo-row">
+
+<img src="icons/aws.svg" alt="AWS">
+<img src="icons/terraform.svg" alt="Terraform">
+<img src="icons/docker.svg" alt="Docker">
+<img src="icons/github.svg" alt="GitHub">
+<img src="icons/linux.svg" alt="Linux">
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- Projects -->
+
 <section id="projects" class="section reveal">
-    <h2>Projects</h2>
 
-    <div class="card">
-        <h3>High Availability 3-Tier SaaS Deployment</h3>
-        <p>Custom VPC • ALB • ASG • Private RDS Multi-AZ</p>
-        <a href="projects/saas-3tier.html" class="project-link">View Full Case Study →</a>
-    </div>
+<div class="container">
 
-    <div class="card">
-        <h3>RDS Multi-AZ Production Deployment</h3>
-        <p>MySQL 8.4 • Automated Backups • Failover Testing</p>
-        <a href="projects/rds-ha.html" class="project-link">View Full Case Study →</a>
-    </div>
+<h2>Infrastructure Projects</h2>
 
-    <div class="card">
-        <h3>Secure Static Hosting with CloudFront</h3>
-        <p>S3 Versioning • OAC • HTTPS Enforcement</p>
-        <a href="projects/s3-cloudfront.html" class="project-link">View Full Case Study →</a>
-    </div>
+<div class="projects-grid">
 
-    <div class="card">
-        <h3>CI Pipeline with GitHub Actions & Docker</h3>
-        <p>Git CLI • GitHub Actions • Docker Build & Push • Secure Secrets Handling</p>
-        <a href="projects/ci-pipeline.html" class="project-link">View Full Case Study →</a>
-    </div>
+
+<!-- Project 0 -->
+
+<div class="card">
+
+<h3>Production-Style AWS Infrastructure (ALB + ASG + RDS + VPC)</h3>
+
+<div class="project-tags">
+<span>AWS</span>
+<span>VPC</span>
+<span>ALB</span>
+<span>Auto Scaling</span>
+<span>RDS</span>
+<span>SSM</span>
+</div>
+
+<div class="project-preview">
+<img src="assets/images/aws-ha-saas/vpc_resource_map.png"
+alt="AWS Infrastructure Architecture">
+</div>
+
+<p>
+End-to-end AWS infrastructure deployment built and tested manually in the
+AWS console. The architecture includes a custom VPC, public and private
+subnets across two availability zones, Application Load Balancer traffic
+distribution, Auto Scaling instance replacement, and a private RDS MySQL
+Multi-AZ database.
+
+Operational resilience was validated by terminating EC2 instances and
+confirming automatic recovery via Auto Scaling while maintaining
+application availability.
+</p>
+
+<div class="project-links">
+
+<a href="projects/aws-ha-saas.html" class="project-link">
+View Case Study →
+</a>
+
+<a href="#"
+class="github-link"
+target="_blank"
+rel="noopener">
+GitHub →
+</a>
+
+</div>
+
+</div>
+
+
+<!-- Project 1 -->
+
+<div class="card">
+
+<h3>Auto-Scaling Web Infrastructure with ALB</h3>
+
+<div class="project-tags">
+<span>AWS</span>
+<span>VPC</span>
+<span>ALB</span>
+<span>Auto Scaling</span>
+<span>EC2</span>
+</div>
+
+<div class="project-preview">
+<img src="assets/images/saas-3tier/architecture.png"
+alt="AWS Infrastructure Architecture">
+</div>
+
+<p>
+Custom VPC (10.0.0.0/16) with public and private subnets across two
+availability zones. Traffic is distributed through an Application Load
+Balancer to EC2 instances running in an Auto Scaling Group, while
+a private RDS MySQL Multi-AZ backend ensures database durability.
+</p>
+
+<a href="projects/saas-3tier.html" class="project-link">View Case Study →</a>
+
+<a href="https://github.com/SresthaMridha/aws-ha-webapp-alb-asg.git"
+class="github-link"
+target="_blank"
+rel="noopener">
+GitHub →
+</a>
+
+</div>
+
+
+
+<!-- Project 2 -->
+
+<div class="card">
+
+<h3>RDS Multi-AZ Production Database</h3>
+
+<div class="project-tags">
+<span>AWS</span>
+<span>RDS</span>
+<span>Multi-AZ</span>
+<span>Backups</span>
+<span>KMS</span>
+</div>
+
+<div class="project-preview">
+<img src="assets/images/rds-ha/architecture.png"
+alt="AWS Infrastructure Architecture">
+</div>
+
+<p>
+Highly available MySQL 8.4 deployment using Amazon RDS Multi-AZ with
+synchronous standby replication, automated backups with point-in-time
+recovery, gp3 storage with provisioned IOPS, and encryption via AWS KMS.
+</p>
+
+<a href="projects/rds-ha.html" class="project-link">View Case Study →</a>
+
+<a href="https://github.com/SresthaMridha/aws-rds-multiaz-ha-database.git"
+class="github-link"
+target="_blank"
+rel="noopener">
+GitHub →
+</a>
+
+</div>
+
+
+
+<!-- Project 3 -->
+
+<div class="card">
+
+<h3>Secure Static Hosting (S3 + CloudFront)</h3>
+
+<div class="project-tags">
+<span>AWS</span>
+<span>S3</span>
+<span>CloudFront</span>
+<span>OAC</span>
+<span>HTTPS</span>
+</div>
+
+<div class="project-preview">
+<img src="assets/images/s3-cloudfront/06-architecture-diagram.png"
+alt="AWS Infrastructure Architecture">
+</div>
+
+<p>
+Static website architecture using a private S3 bucket secured with
+Origin Access Control and delivered globally through CloudFront.
+HTTPS enforcement ensures encrypted access while direct S3 access
+remains blocked.
+</p>
+
+<a href="projects/s3-cloudfront.html" class="project-link">View Case Study →</a>
+
+<a href="https://github.com/SresthaMridha/aws-static-website-s3-cloudfront.git"
+class="github-link"
+target="_blank"
+rel="noopener">
+GitHub →
+</a>
+
+</div>
+
+
+
+<!-- Project 4 -->
+
+<div class="card">
+
+<h3>CI Pipeline with GitHub Actions</h3>
+
+<div class="project-tags">
+<span>CI/CD</span>
+<span>GitHub Actions</span>
+<span>Docker</span>
+<span>Nginx</span>
+</div>
+
+<p>
+Automated CI workflow triggered on push events. The pipeline builds
+a Docker container from a custom Dockerfile, authenticates securely
+using repository secrets, and publishes versioned artifacts to Docker Hub.
+</p>
+
+<div class="project-links">
+
+<a href="projects/ci-pipeline.html" class="project-link">View Case Study →</a>
+
+<a href="https://github.com/SresthaMridha/aws-portfolio-website"
+class="github-link"
+target="_blank"
+rel="noopener">
+GitHub →
+</a>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
 </section>
+
+
 
 <!-- About -->
+
 <section id="about" class="section reveal">
-    <h2>About</h2>
-    <p>
-        I design and validate production-grade AWS architectures focused on high availability,
-        security, and cost optimization. I complement infrastructure design with CI/CD automation
-        and containerized deployment workflows to ensure repeatable, reliable production delivery.
-    </p>
+
+<div class="container">
+
+<h2>About</h2>
+
+<p>
+I design and validate cloud infrastructure focused on reliability,
+security, and operational resilience. Architectures are deployed
+directly in AWS and tested under real operational scenarios such
+as instance termination, database failover, and restricted network access.
+
+I also implement CI/CD pipelines and containerized workflows to
+ensure repeatable and automated software delivery.
+</p>
+
+</div>
+
 </section>
 
-<!-- Architecture Philosophy -->
+
+
+<!-- Architecture Overview -->
+
 <section class="section reveal">
-    <h2>Architecture Philosophy</h2>
-    <p>
-        My infrastructure design follows a layered, high-availability model:
-        Users → Application Load Balancer → Stateless EC2 (Auto Scaling) →
-        Private RDS (Multi-AZ) → S3 for storage, logs, and backups.
-    </p>
-    <p>
-        Systems are designed to tolerate AZ failure, instance failure,
-        and traffic spikes without manual intervention.
-    </p>
-    <p>
-    Infrastructure is paired with automation. CI workflows build and publish
-    containerized artifacts, enabling repeatable deployments and consistent
-    runtime behavior across environments.
-    </p>
+
+<div class="container">
+
+<h2>Infrastructure Validation</h2>
+
+<p>
+All architectures were deployed and tested in AWS to validate
+resilience, security, and failover behavior.
+</p>
+
+<div class="validation-grid">
+
+<div class="validation-card">
+<h3>Load Balancer Health Checks</h3>
+<p>
+Verified that the Application Load Balancer routes traffic only
+to healthy EC2 instances registered in the target group.
+</p>
+</div>
+
+<div class="validation-card">
+<h3>Auto Scaling Recovery</h3>
+<p>
+Simulated instance failure by terminating EC2 instances and
+confirming automatic replacement by the Auto Scaling Group.
+</p>
+</div>
+
+<div class="validation-card">
+<h3>Database Failover Protection</h3>
+<p>
+Validated RDS Multi-AZ standby replication and automated
+backup strategy for durability and recovery.
+</p>
+</div>
+
+<div class="validation-card">
+<h3>Network Isolation</h3>
+<p>
+Confirmed that database instances remain inaccessible
+from the public internet through private subnet design
+and security group restrictions.
+</p>
+</div>
+
+<div class="validation-card">
+<h3>Private Storage Access</h3>
+<p>
+Tested S3 bucket access restrictions returning AccessDenied
+when accessed directly outside CloudFront.
+</p>
+</div>
+
+<div class="validation-card">
+<h3>Secure Instance Access</h3>
+<p>
+Configured IAM instance profiles and AWS Systems Manager
+Session Manager to manage instances without exposing SSH.
+</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- Design Philosophy -->
+
+<section class="section reveal">
+
+<div class="container">
+
+<h2>Architecture Principles</h2>
+
+<div class="decision-grid">
+
+
+<div class="decision-card">
+
+<h3>Why Multi-AZ?</h3>
+
+<p>
+Critical components such as compute and databases are deployed across
+multiple availability zones to tolerate infrastructure failures and
+maintain service availability without manual intervention.
+</p>
+
+</div>
+
+
+<div class="decision-card">
+
+<h3>Why Stateless Compute?</h3>
+
+<p>
+Application servers are designed to remain stateless so Auto Scaling
+can terminate and replace instances without affecting persistent data.
+All state is stored in managed services such as RDS or S3.
+</p>
+
+</div>
+
+
+<div class="decision-card">
+
+<h3>Why Private Databases?</h3>
+
+<p>
+Database instances remain isolated within private subnets and accept
+traffic only from the application security group. This prevents
+direct internet exposure and enforces a layered security model.
+</p>
+
+</div>
+
+
+<div class="decision-card">
+
+<h3>Why Managed Services?</h3>
+
+<p>
+Services such as RDS, CloudFront and Auto Scaling reduce operational
+overhead while improving reliability through built-in automation
+and failover mechanisms.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
 </section>
 
 <!-- Technical Stack -->
+
 <section class="section reveal">
-    <h2>Technical Stack</h2>
 
-    <div class="tech-grid">
+<div class="container">
 
-        <div>
-            <h3>Networking</h3>
-            <ul>
-                <li>Custom VPC (10.0.0.0/16)</li>
-                <li>Public & Private Subnets (2 AZ)</li>
-                <li>Internet Gateway</li>
-                <li>NAT Gateway</li>
-                <li>Route Tables</li>
-                <li>Security Group Chaining</li>
-            </ul>
-        </div>
+<h2>Technical Stack</h2>
 
-        <div>
-            <h3>Compute</h3>
-            <ul>
-                <li>EC2</li>
-                <li>Launch Templates</li>
-                <li>Auto Scaling Groups</li>
-                <li>Target Tracking Policies</li>
-                <li>Spot Instances</li>
-                <li>User Data Automation</li>
-            </ul>
-        </div>
+<div class="tech-grid">
 
-        <div>
-            <h3>Database</h3>
-            <ul>
-                <li>RDS MySQL 8.4</li>
-                <li>Multi-AZ Deployment</li>
-                <li>PITR Backups</li>
-                <li>KMS Encryption</li>
-                <li>Performance Insights</li>
-                <li>Deletion Protection</li>
-            </ul>
-        </div>
 
-        <div>
-            <h3>Storage & CDN</h3>
-            <ul>
-                <li>S3 Versioning</li>
-                <li>Lifecycle Policies</li>
-                <li>CloudFront</li>
-                <li>Origin Access Control (OAC)</li>
-                <li>HTTPS Enforcement</li>
-            </ul>
-        </div>
+<div>
 
-        <div>
-            <h3>DevOps & Automation</h3>
-            <ul>
-                <li>Git (CLI)</li>
-                <li>GitHub Actions</li>
-                <li>CI Pipeline Design</li>
-                <li>Docker & Containerization</li>
-                <li>Artifact Publishing (Docker Hub)</li>
-            </ul>
-        </div>
+<h3>Networking</h3>
 
-    </div>
+<ul>
+
+<li>Custom VPC (10.0.0.0/16)</li>
+<li>Public & Private Subnets</li>
+<li>Internet Gateway</li>
+<li>NAT Gateway</li>
+<li>Route Tables</li>
+<li>Security Group Chaining</li>
+
+</ul>
+
+</div>
+
+
+<div>
+
+<h3>Compute</h3>
+
+<ul>
+
+<li>EC2</li>
+<li>Launch Templates</li>
+<li>Auto Scaling Groups</li>
+<li>Target Tracking Policies</li>
+<li>User Data Automation</li>
+
+</ul>
+
+</div>
+
+
+<div>
+
+<h3>Database</h3>
+
+<ul>
+
+<li>RDS MySQL</li>
+<li>Multi-AZ Deployment</li>
+<li>PITR Backups</li>
+<li>KMS Encryption</li>
+<li>Performance Insights</li>
+
+</ul>
+
+</div>
+
+
+<div>
+
+<h3>Storage & CDN</h3>
+
+<ul>
+
+<li>S3 Versioning</li>
+<li>Lifecycle Policies</li>
+<li>CloudFront CDN</li>
+<li>Origin Access Control</li>
+<li>HTTPS Enforcement</li>
+
+</ul>
+
+</div>
+
+
+<div>
+
+<h3>DevOps & Automation</h3>
+
+<ul>
+
+<li>Git CLI</li>
+<li>GitHub Actions</li>
+<li>CI Pipeline Design</li>
+<li>Docker Containers</li>
+<li>Artifact Publishing</li>
+
+</ul>
+
+</div>
+
+
+<div>
+
+<h3>Monitoring & Operations</h3>
+
+<ul>
+
+<li>CloudWatch Metrics</li>
+<li>Health Checks</li>
+<li>Performance Insights</li>
+<li>Operational Validation</li>
+
+</ul>
+
+</div>
+
+
+</div>
+
+</div>
+
 </section>
 
-<!-- Operational Testing -->
-<section class="section reveal">
-    <h2>Operational & Resilience Testing</h2>
-    <ul>
-        <li>Verified ASG self-healing by terminating instances</li>
-        <li>Validated RDS Multi-AZ failover behavior</li>
-        <li>Tested S3 private access (AccessDenied verification)</li>
-        <li>Configured IAM Instance Profiles (S3 + SSM)</li>
-        <li>Implemented private EC2 access via SSM (No SSH)</li>
-        <li>Performed full environment teardown for cost control</li>
-        <li>Validated CI pipeline build and artifact publishing workflow</li>
-    </ul>
-</section>
 
 <!-- Cost Optimization -->
+
 <section class="section reveal">
-    <h2>Cost Optimization Strategy</h2>
-    <ul>
-        <li>Spot vs On-Demand instance tradeoffs</li>
-        <li>Right-sized RDS instance selection</li>
-        <li>gp3 storage with defined IOPS</li>
-        <li>Lifecycle expiration for S3 non-current versions</li>
-        <li>Environment teardown after testing</li>
-    </ul>
+
+<div class="container">
+
+<h2>Cost Optimization Strategy</h2>
+
+<ul>
+
+<li>Evaluated Spot vs On-Demand compute tradeoffs</li>
+<li>Right-sized RDS instance configurations</li>
+<li>Used gp3 storage with controlled IOPS</li>
+<li>Configured S3 lifecycle policies</li>
+<li>Destroyed environments after validation</li>
+
+</ul>
+
+</div>
+
 </section>
 
-<!-- Learning Roadmap -->
-<section class="section reveal">
-    <h2>Currently Expanding Into</h2>
-    <ul>
-        <li>GitHub Actions → AWS deployments</li>
-        <li>Infrastructure as Code (Terraform - planned)</li>
-    </ul>
+
+
+<!-- Learning -->
+
+<section id="learning" class="section reveal">
+
+<div class="container">
+
+<h2>Learning Dashboard</h2>
+
+<p>
+Currently expanding Infrastructure-as-Code expertise by rebuilding
+existing AWS architectures using Terraform modules and reusable
+infrastructure components.
+</p>
+
+<div class="learning-grid">
+
+
+<div class="learning-card">
+<i data-lucide="layers"></i>
+<h3>Terraform Modules</h3>
+<p>Reusable infrastructure components</p>
+</div>
+
+<div class="learning-card">
+<i data-lucide="git-branch"></i>
+<h3>Terraform Workspaces</h3>
+<p>Managing multi-environment state</p>
+</div>
+
+<div class="learning-card">
+<i data-lucide="database"></i>
+<h3>Terraform Data Sources</h3>
+<p>Reading existing infrastructure</p>
+</div>
+
+<div class="learning-card">
+<i data-lucide="terminal"></i>
+<h3>Provisioners</h3>
+<p>Executing scripts during deployment</p>
+</div>
+
+<div class="learning-card">
+<i data-lucide="shuffle"></i>
+<h3>Dynamic Blocks</h3>
+<p>Programmatic nested resources</p>
+</div>
+
+<div class="learning-card">
+<i data-lucide="download-cloud"></i>
+<h3>Terraform Import</h3>
+<p>Managing existing resources</p>
+</div>
+
+
+</div>
+
+</div>
+
 </section>
+
+
 
 <!-- Skills -->
+
 <section id="skills" class="section reveal">
-    <h2>Core Skills</h2>
-    <ul class="skills-list">
-        <li>EC2 + Auto Scaling</li>
-        <li>Application Load Balancer</li>
-        <li>RDS Multi-AZ</li>
-        <li>S3 + CloudFront</li>
-        <li>Route 53</li>
-        <li>IAM + Security Groups</li>
-        <li>Git & Version Control</li>
-        <li>CI/CD Automation</li>
-        <li>Docker & Containerization</li>
-        <li>GitHub Actions</li>
-    </ul>
+
+<div class="container">
+
+<h2>Core Skills</h2>
+
+<ul class="skills-list">
+
+<li>AWS EC2 & Auto Scaling</li>
+<li>Application Load Balancer</li>
+<li>RDS Multi-AZ</li>
+<li>S3 + CloudFront</li>
+<li>Route 53</li>
+<li>IAM & Security Groups</li>
+<li>Linux Administration</li>
+<li>Git & Version Control</li>
+<li>Docker Containers</li>
+<li>CI/CD Automation</li>
+<li>GitHub Actions</li>
+
+</ul>
+
+</div>
+
 </section>
 
-<!-- Contact -->
-<section id="contact" class="section reveal">
-    <h2>Contact</h2>
-    <p>If you're looking to deploy high-availability AWS infrastructure or secure cloud architectures, feel free to reach out.</p>
-    <p>Email: sresthamridha@email.com</p>
-    <p>LinkedIn: <a href="https://linkedin.com/in/srestha-mridha" target="_blank">linkedin.com/in/srestha-mridha</a></p>
-    <p>GitHub: <a href="https://github.com/SresthaMridha" target="_blank">github.com/SresthaMridha</a></p>
-    
+
+
+<section class="section reveal">
+
+<div class="container">
+
+<h2>Cloud Infrastructure Services</h2>
+
+<p>
+The following infrastructure patterns are implemented in my projects
+and can be adapted for production workloads, SaaS platforms,
+and scalable cloud deployments.
+</p>
+
+<div class="services-grid">
+
+<div class="service-card">
+
+<h3>High Availability Web Infrastructure</h3>
+
+<p>
+Design and deployment of fault-tolerant AWS infrastructure using
+Application Load Balancers, Auto Scaling Groups, and Multi-AZ
+database backends.
+</p>
+
+</div>
+
+
+<div class="service-card">
+
+<h3>Secure AWS Networking</h3>
+
+<p>
+Custom VPC architecture with public/private subnet segmentation,
+security group chaining, NAT gateways, and least-privilege
+network access models.
+</p>
+
+</div>
+
+
+<div class="service-card">
+
+<h3>Database High Availability</h3>
+
+<p>
+Production-ready RDS deployments with Multi-AZ replication,
+automated backups, point-in-time recovery, and encryption
+via AWS KMS.
+</p>
+
+</div>
+
+
+<div class="service-card">
+
+<h3>Static Hosting & CDN Architecture</h3>
+
+<p>
+Secure static site deployments using S3 with private access,
+CloudFront distribution, HTTPS enforcement, and optimized
+global delivery.
+</p>
+
+</div>
+
+
+<div class="service-card">
+
+<h3>CI/CD Pipeline Automation</h3>
+
+<p>
+Automated build pipelines using GitHub Actions to build Docker
+images, publish artifacts, and support repeatable deployment
+workflows.
+</p>
+
+</div>
+
+
+<div class="service-card">
+
+<h3>Infrastructure Architecture Documentation</h3>
+
+<p>
+Architecture diagrams, deployment documentation, and
+operational validation procedures for reproducible
+cloud infrastructure.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
+
+
+<!-- Contact -->
+
+<section id="contact" class="section reveal">
+
+<div class="container">
+
+<h2>Contact</h2>
+
+<p>
+If you're looking for cloud infrastructure design,
+DevOps automation, or scalable AWS architecture,
+feel free to reach out.
+</p>
+
+<div class="contact-links">
+
+<p>Email: sresthamridha@gmail.com</p>
+
+<p>
+LinkedIn:
+<a href="https://linkedin.com/in/srestha-mridha" target="_blank">
+linkedin.com/in/srestha-mridha
+</a>
+</p>
+
+<p>
+GitHub:
+<a href="https://github.com/SresthaMridha" target="_blank">
+github.com/SresthaMridha
+</a>
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
 
 <script src="js/script.js"></script>
 
-<footer class="footer">
-    <p>© 2026 Srestha Mridha</p>
-    <p>Designed, Automated, and Validated via CI/CD Workflows</p>
-</footer>
+<script>
+lucide.createIcons();
+</script>
 
+
+
+<footer class="footer">
+
+<p>© 2026 Srestha Mridha</p>
+<p>Designed, Automated, and Validated via CI/CD Workflows</p>
+
+</footer>
 </body>
 </html>

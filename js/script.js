@@ -21,6 +21,15 @@ const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
 const lightboxClose = document.getElementById("lightbox-close");
 
+if (lightbox) {
+  document.querySelectorAll(".image-grid img").forEach(img => {
+      img.addEventListener("click", () => {
+          lightbox.classList.add("active");
+          lightboxImg.src = img.src;
+      });
+  });
+}
+
 document.querySelectorAll(".image-grid img").forEach(img => {
     img.addEventListener("click", () => {
         lightbox.classList.add("active");
@@ -38,4 +47,5 @@ lightbox.addEventListener("click", (e) => {
         lightbox.classList.remove("active");
     }
 });
+
 

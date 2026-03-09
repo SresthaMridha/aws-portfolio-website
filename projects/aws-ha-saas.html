@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<title>Production-Style AWS Infrastructure (ALB + ASG + RDS + VPC) | Srestha Mridha</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+
+<body>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+<span id="lightbox-close">&times;</span>
+<img id="lightbox-img">
+</div>
+
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+<div class="logo">Srestha Mridha</div>
+
+<ul class="nav-links">
+<li><a href="../index.html">Home</a></li>
+</ul>
+
+</nav>
+
+
+
+<!-- PROJECT CONTENT -->
+
+<section class="section project-layout">
+
+<div class="container">
+
+<h1>High Availability SaaS Infrastructure on AWS</h1>
+
+
+<!-- ARCHITECTURE DIAGRAM -->
+
+<div class="architecture-banner">
+<img src="../assets/images/aws-ha-saas/vpc_resource_map.png"
+alt="AWS Architecture Diagram">
+</div>
+
+<p class="diagram-caption">
+Architecture diagram showing the multi-AZ web infrastructure with
+Application Load Balancer, Auto Scaling EC2 instances, and RDS database.
+</p>
+
+
+
+<!-- PROJECT SUMMARY -->
+
+<div class="project-summary">
+
+<div class="summary-item">
+<span class="summary-label">Architecture</span>
+<span>3-Tier HA Web Architecture</span>
+</div>
+
+<div class="summary-item">
+<span class="summary-label">Platform</span>
+<span>AWS</span>
+</div>
+
+<div class="summary-item">
+<span class="summary-label">Compute</span>
+<span>EC2 + Auto Scaling</span>
+</div>
+
+<div class="summary-item">
+<span class="summary-label">Database</span>
+<span>RDS MySQL Multi-AZ</span>
+</div>
+
+<div class="summary-item">
+<span class="summary-label">Networking</span>
+<span>Custom VPC</span>
+</div>
+
+<div class="summary-item">
+<span class="summary-label">Management</span>
+<span>AWS Systems Manager</span>
+</div>
+
+</div>
+
+
+
+<p>
+This project demonstrates the design and implementation of a production-style
+3-tier web architecture on AWS. The goal was to build a secure and resilient
+cloud infrastructure capable of handling instance failures while maintaining
+application availability through Auto Scaling, Load Balancing, and Multi-AZ
+database replication.
+</p>
+
+
+
+<h2>Architecture Overview</h2>
+
+<p>
+The infrastructure follows a traditional three-tier architecture pattern.
+Incoming user traffic is handled by an Application Load Balancer,
+distributed across EC2 instances managed by an Auto Scaling Group,
+and persisted in a highly available Amazon RDS MySQL database.
+</p>
+
+<p><strong>
+User → Application Load Balancer → EC2 (Auto Scaling) → RDS MySQL
+</strong></p>
+
+
+<div class="image-grid">
+
+<img src="../assets/images/aws-ha-saas/vpc_resource_map.png"
+alt="AWS VPC architecture">
+
+<img src="../assets/images/aws-ha-saas/saas-app-alb-webpage-dns.png"
+alt="Application Load Balancer DNS endpoint">
+
+</div>
+
+
+
+<!-- STEP 1 -->
+
+<details class="case-step" open>
+
+<summary>Step 1 – Virtual Private Cloud Design</summary>
+
+<p>
+A custom VPC was created to isolate the application environment and allow
+fine-grained network control.
+</p>
+
+<p><strong>VPC CIDR:</strong> 10.0.0.0/16</p>
+
+<div class="image-grid">
+
+<img src="../assets/images/aws-ha-saas/VPC_summary_page.png"
+alt="AWS VPC summary">
+
+<img src="../assets/images/aws-ha-saas/vpc_subnets.png"
+alt="Subnet architecture">
+
+</div>
+
+<ul>
+<li>Public subnets – load balancer and NAT gateway</li>
+<li>Private application subnets – EC2 instances</li>
+<li>Private database subnets – RDS deployment</li>
+</ul>
+
+</details>
+
+
+
+<!-- STEP 2 -->
+
+<details class="case-step">
+
+<summary>Step 2 – Internet Gateway and Routing</summary>
+
+<p>
+An Internet Gateway was attached to the VPC to allow public access to the
+load balancer. Private subnets use a NAT Gateway for outbound internet
+connectivity while remaining inaccessible from the internet.
+</p>
+
+<div class="image-grid">
+
+<img src="../assets/images/aws-ha-saas/saas-ha-igw.png"
+alt="Internet Gateway">
+
+<img src="../assets/images/aws-ha-saas/vpc_route_tables.png"
+alt="Route tables">
+
+<img src="../assets/images/aws-ha-saas/saas-ha-nat-az1-ip-addresses.png"
+alt="NAT Gateway">
+
+</div>
+
+</details>
+
+
+
+<!-- STEP 3 -->
+
+<details class="case-step">
+
+<summary>Step 3 – Security Architecture</summary>
+
+<p>
+Security groups were configured using a layered access model so each tier
+only communicates with the required upstream component.
+</p>
+
+<ul>
+<li>ALB Security Group → allows HTTP traffic from internet</li>
+<li>EC2 Security Group → allows inbound traffic only from ALB</li>
+<li>RDS Security Group → allows MySQL access only from EC2</li>
+</ul>
+
+<div class="image-grid">
+
+<img src="../assets/images/aws-ha-saas/alb-sg-details-and-inbound.png"
+alt="ALB security group">
+
+<img src="../assets/images/aws-ha-saas/ec2-app-sg-details-and-inbound.png"
+alt="EC2 security group">
+
+<img src="../assets/images/aws-ha-saas/ec2-sg-rds-sg-details-and-inbound.png"
+alt="RDS security group">
+
+</div>
+
+</details>
+
+
+
+<!-- STEP 4 -->
+
+<details class="case-step">
+
+<summary>Step 4 – Auto Scaling Compute Layer</summary>
+
+<p>
+A Launch Template was created to automatically configure EC2 instances
+with Apache, PHP, and MySQL client tools during startup.
+</p>
+
+<div class="image-grid">
+
+<img src="../assets/images/aws-ha-saas/saas-app-lt-details.png"
+alt="Launch template">
+
+<img src="../assets/images/aws-ha-saas/ec2-asg-saas-app-asg-details.png"
+alt="Auto Scaling group">
+
+</div>
+
+</details>
+
+
+
+<!-- STEP 5 -->
+
+<details class="case-step">
+
+<summary>Step 5 – Application Load Balancer</summary>
+
+<p>
+An Application Load Balancer distributes incoming traffic across healthy
+instances registered within a target group.
+</p>
+
+<div class="image-grid">
+
+<img src="../assets/images/aws-ha-saas/ec2-alb-saas-app-alb-network-mapping.png"
+alt="ALB network mapping">
+
+<img src="../assets/images/aws-ha-saas/ec2-alb-saas-app-alb-listener-and-rules.png"
+alt="ALB listener rules">
+
+<img src="../assets/images/aws-ha-saas/ec2-tg-saas-app-tg-targets-and-details.png"
+alt="Target group health checks">
+
+</div>
+
+</details>
+
+
+
+<!-- STEP 6 -->
+
+<details class="case-step">
+
+<summary>Step 6 – Database Layer</summary>
+
+<p>
+Amazon RDS MySQL was deployed in Multi-AZ mode to provide automatic failover
+and high availability.
+</p>
+
+<div class="image-grid">
+
+<img src="../assets/images/aws-ha-saas/saas-ha-mysql-configuration.png"
+alt="RDS configuration">
+
+<img src="../assets/images/aws-ha-saas/saas-ha-mysql-part1.png"
+alt="RDS configuration part 1">
+
+<img src="../assets/images/aws-ha-saas/saas-ha-mysql-part2.png"
+alt="RDS configuration part 2">
+
+</div>
+
+</details>
+
+
+
+<!-- STEP 7 -->
+
+<details class="case-step">
+
+<summary>Step 7 – Secure Instance Management</summary>
+
+<p>
+Instead of opening SSH access, instances were managed using AWS Systems
+Manager Session Manager.
+</p>
+
+<div class="image-grid">
+
+<img src="../assets/images/aws-ha-saas/ssm-fleet-manager-list.png"
+alt="SSM managed instances">
+
+<img src="../assets/images/aws-ha-saas/ssm-terminal-hostname-sql-version-rds-table.png"
+alt="SSM terminal access">
+
+</div>
+
+</details>
+
+
+
+<!-- STEP 8 -->
+
+<details class="case-step">
+
+<summary>Step 8 – Application Deployment</summary>
+
+<p>
+A PHP application was deployed on the EC2 instances to validate
+database connectivity and confirm that the system functioned end-to-end.
+</p>
+
+<div class="image-grid">
+
+<img src="../assets/images/aws-ha-saas/index-php-on-web.png"
+alt="Application running">
+
+</div>
+
+</details>
+
+
+
+<h2>High Availability Testing</h2>
+
+<p>
+To validate system resilience, an EC2 instance was manually terminated.
+The Auto Scaling Group automatically launched a replacement instance,
+while the load balancer continued routing traffic to healthy targets.
+</p>
+
+<p>
+Database records remained intact due to the RDS Multi-AZ configuration,
+demonstrating separation of stateless compute and persistent storage.
+</p>
+
+
+
+<h2>Cost Management</h2>
+
+<p>
+After testing was completed, all resources including NAT Gateway,
+RDS instances, Auto Scaling Groups, Load Balancers, and the VPC
+were safely deleted to prevent ongoing charges.
+</p>
+
+
+
+<h2>Project Repository</h2>
+
+<p>
+<a href="https://github.com/SresthaMridha/aws-ha-webapp-alb-asg" target="_blank">
+View the GitHub Repository
+</a>
+</p>
+
+
+
+<h2>Outcome</h2>
+
+<p>
+The architecture successfully demonstrated a resilient cloud
+infrastructure capable of handling instance failures, distributing
+traffic across availability zones, and maintaining persistent
+database storage.
+</p>
+
+</div>
+
+</section>
+
+
+
+<footer class="footer">
+<p>© 2026 Srestha Mridha</p>
+</footer>
+
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>

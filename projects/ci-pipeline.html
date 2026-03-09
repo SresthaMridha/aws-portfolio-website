@@ -1,136 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>CI Pipeline with GitHub Actions & Docker | Srestha Mridha</title>
-    <link rel="stylesheet" href="../css/style.css">
+
+<meta charset="UTF-8">
+<title>CI/CD Pipeline with GitHub Actions and Docker | Srestha Mridha</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
 </head>
+
 
 <body>
 
-<!-- Navigation -->
+<div id="lightbox">
+
+<span id="lightbox-close">&times;</span>
+
+<img id="lightbox-img">
+
+</div>
+
 <nav class="navbar">
-    <div class="logo">Srestha Mridha</div>
-    <ul class="nav-links">
-        <li><a href="../index.html">Home</a></li>
-    </ul>
+
+<div class="logo">Srestha Mridha</div>
+
+<ul class="nav-links">
+<li><a href="../index.html">Home</a></li>
+</ul>
+
 </nav>
 
-<section class="section">
 
-    <h1>CI Pipeline with GitHub Actions & Docker</h1>
-    <p>
-        Designed and implemented an automated Continuous Integration workflow
-        triggered on push to the main branch. The pipeline builds a Docker image
-        from a custom Dockerfile and securely publishes the artifact to Docker Hub.
-    </p>
+<section class="section project-layout">
 
-    <div class="section-divider"></div>
+<div class="container">
 
-    <!-- Objective -->
-    <div class="project-block">
-        <h2>Objective</h2>
-        <p>Build a repeatable CI workflow that:</p>
-        <ul>
-            <li>Triggers automatically on code push</li>
-            <li>Builds a containerized application</li>
-            <li>Publishes a deployable Docker artifact</li>
-            <li>Handles credentials securely</li>
-        </ul>
-    </div>
+<h1>CI/CD Pipeline with GitHub Actions and Docker</h1>
 
-    <div class="section-divider"></div>
+<div class="project-summary">
 
-    <!-- Pipeline Architecture -->
-    <div class="project-block">
-        <h2>Pipeline Architecture</h2>
+<div class="summary-item">
+<span class="summary-label">Pipeline</span>
+<span>GitHub Actions</span>
+</div>
 
-        <p>
-            <strong>Local → GitHub Repository → GitHub Actions Runner (Ubuntu) →
-            Docker Build → Docker Hub Registry</strong>
-        </p>
+<div class="summary-item">
+<span class="summary-label">Container</span>
+<span>Docker</span>
+</div>
 
-        <ul>
-            <li>Workflow defined using YAML configuration</li>
-            <li>Trigger: push to main branch</li>
-            <li>Runner environment: ubuntu-latest</li>
-            <li>Repository secrets injected at runtime</li>
-            <li>Docker image tagged and pushed automatically</li>
-        </ul>
-    </div>
+<div class="summary-item">
+<span class="summary-label">Registry</span>
+<span>Docker Hub</span>
+</div>
 
-    <div class="section-divider"></div>
+<div class="summary-item">
+<span class="summary-label">Trigger</span>
+<span>Git Push Automation</span>
+</div>
 
-    <!-- Infrastructure Components -->
-    <div class="project-block">
-        <h2>Technical Components</h2>
+</div>
 
-        <h3>Version Control</h3>
-        <ul>
-            <li>Git CLI-based workflow</li>
-            <li>Branch tracking and remote synchronization</li>
-            <li>Commit-triggered automation</li>
-        </ul>
+<p>
+This project demonstrates a continuous integration and deployment
+pipeline that automatically builds and publishes container images
+whenever changes are pushed to the repository. The pipeline uses
+GitHub Actions to automate Docker image creation and push the
+image to Docker Hub.
+</p>
 
-        <h3>GitHub Actions Workflow</h3>
-        <ul>
-            <li>Checkout repository step</li>
-            <li>Docker Hub login using encrypted secrets</li>
-            <li>Docker build command execution</li>
-            <li>Automated image push to registry</li>
-        </ul>
 
-        <h3>Containerization</h3>
-        <ul>
-            <li>Dockerfile using nginx:alpine base image</li>
-            <li>Static HTML/CSS packaged into container</li>
-            <li>Port 80 exposure for runtime execution</li>
-        </ul>
-    </div>
+<h2>Objective</h2>
 
-    <div class="section-divider"></div>
+<ul>
 
-    <!-- Validation -->
-    <div class="project-block">
-        <h2>Validation & Testing</h2>
+<li>Automate application builds using CI/CD</li>
+<li>Create Docker images from application source code</li>
+<li>Push images automatically to Docker Hub</li>
+<li>Establish a reproducible deployment workflow</li>
 
-        <ul>
-            <li>Verified successful workflow execution in Actions tab</li>
-            <li>Confirmed image availability in Docker Hub</li>
-            <li>Pulled image locally using docker pull</li>
-            <li>Executed container with port mapping</li>
-            <li>Validated browser output via localhost</li>
-        </ul>
-    </div>
+</ul>
 
-    <div class="section-divider"></div>
 
-    <!-- Security Considerations -->
-    <div class="project-block">
-        <h2>Security Design</h2>
-        <ul>
-            <li>No credentials hardcoded in workflow</li>
-            <li>Repository secrets used for Docker authentication</li>
-            <li>Secrets injected only at runtime</li>
-        </ul>
-    </div>
+<h2>Pipeline Architecture</h2>
 
-    <div class="section-divider"></div>
+<p>The automated workflow follows this pipeline:</p>
 
-    <h2>Outcome</h2>
-    <p>
-        Successfully implemented an automated CI pipeline producing
-        containerized deployable artifacts. Established foundational
-        DevOps workflow integrating Git, Docker, and secure CI automation.
-    </p>
+<p>
+
+<strong>
+Developer Push → GitHub Repository → GitHub Actions Workflow →
+Docker Build → Push to Docker Hub → Container Deployment
+</strong>
+
+</p>
+
+<p>
+
+Every code change triggers a GitHub Actions workflow that builds
+a Docker image using the repository's Dockerfile and publishes
+the image to Docker Hub.
+
+</p>
+
+
+<h2>GitHub Actions Workflow</h2>
+
+<ul>
+
+<li>Pipeline triggered on push to the main branch</li>
+<li>Workflow runs on GitHub-hosted runners</li>
+<li>Docker image built automatically</li>
+<li>Authentication to Docker Hub via repository secrets</li>
+<li>Image pushed to container registry</li>
+
+</ul>
+
+
+<h2>Containerization</h2>
+
+<ul>
+
+<li>Application packaged inside Docker container</li>
+<li>Nginx used as the web server</li>
+<li>Static web content served through container</li>
+
+</ul>
+
+
+<h2>Security Configuration</h2>
+
+<ul>
+
+<li>Docker Hub credentials stored as GitHub Secrets</li>
+<li>Secrets injected securely during pipeline execution</li>
+<li>No credentials exposed in repository code</li>
+
+</ul>
+
+
+<h2>Deployment Validation</h2>
+
+<ul>
+
+<li>Docker image successfully pushed to Docker Hub</li>
+<li>Image pulled locally from registry</li>
+<li>Container launched using Docker runtime</li>
+<li>Application verified through browser access</li>
+
+</ul>
+
+
+<h2>Project Repository</h2>
+
+<p>
+
+<a href="https://github.com/SresthaMridha/aws-portfolio-website" target="_blank">
+View the GitHub Repository
+</a>
+
+</p>
+
+
+<h2>Outcome</h2>
+
+<p>
+
+The pipeline successfully automated the container build and publishing
+process. Each code push produces a reproducible container artifact
+ready for deployment, reducing manual steps and improving deployment
+consistency.
+
+</p>
+
+</div>
 
 </section>
 
+
 <footer class="footer">
-    <p>© 2026 Srestha Mridha</p>
+
+<p>© 2026 Srestha Mridha</p>
+
 </footer>
 
 <script src="../js/script.js"></script>
-
 </body>
 </html>
