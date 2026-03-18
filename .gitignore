@@ -1,0 +1,23 @@
+# Windows artifacts
+desktop.ini
+Thumbs.db
+ehthumbs.db
+
+# macOS artifacts
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Node (if ever added)
+node_modules/
+desktop.ini
