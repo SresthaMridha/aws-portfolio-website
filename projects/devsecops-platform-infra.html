@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>DevSecOps Platform Infrastructure | Srestha Mridha</title>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+  <div class="logo">Srestha Mridha</div>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+  </ul>
+</nav>
+
+
+<section class="section project-layout">
+<div class="container">
+
+  <h1>DevSecOps Platform Infrastructure</h1>
+
+  <div class="project-summary">
+
+    <div class="summary-item">
+      <span class="summary-label">Provisioning</span>
+      <span>Terraform (IaC)</span>
+    </div>
+
+    <div class="summary-item">
+      <span class="summary-label">Orchestration</span>
+      <span>Amazon EKS</span>
+    </div>
+
+    <div class="summary-item">
+      <span class="summary-label">Automation</span>
+      <span>GitHub Actions</span>
+    </div>
+
+    <div class="summary-item">
+      <span class="summary-label">Security</span>
+      <span>IAM Least-Privilege</span>
+    </div>
+
+    <div class="summary-item">
+      <span class="summary-label">Repository</span>
+      <span>Private</span>
+    </div>
+
+  </div>
+
+  <p>
+    This project involved designing and provisioning a containerized platform
+    infrastructure from the ground up using infrastructure-as-code, with security
+    considerations embedded at every layer — from how the cluster is shaped to
+    how identities are granted access within it.
+  </p>
+
+  <p>
+    The repository is private. This writeup covers the architecture decisions,
+    security model, and automation approach without exposing implementation details.
+  </p>
+
+
+  <h2>The Problem Worth Solving</h2>
+
+  <p>
+    Spinning up a Kubernetes cluster manually and granting broad IAM permissions
+    to get things running quickly is a pattern that causes real problems at scale.
+    Over-provisioned identities accumulate. State drifts. Nobody remembers what
+    was clicked in the console six months ago.
+  </p>
+
+  <p>
+    This project was an exercise in doing the opposite — building a platform
+    where every resource exists because code says it should, every identity
+    has exactly the access it needs, and the only way to change the
+    infrastructure is through a version-controlled pipeline.
+  </p>
+
+
+  <h2>Infrastructure Design</h2>
+
+  <p>
+    The platform is built on Amazon EKS and provisioned entirely through modular
+    Terraform configurations. The Terraform layout separates concerns deliberately —
+    networking, cluster, and access control are not tangled together. Each module
+    has a clearly bounded responsibility, which makes changes easier to reason about
+    and review.
+  </p>
+
+  <p>
+    The cluster spans multiple availability zones by design, not as an afterthought.
+    Node groups are configured declaratively, meaning capacity decisions are
+    documented in code and reproducible on any environment rather than locked
+    inside a one-off console session.
+  </p>
+
+
+  <h2>IAM Architecture</h2>
+
+  <p>
+    Access control was the most deliberate part of this build. IAM roles were
+    scoped narrowly at each boundary in the stack — the role the cluster uses
+    to manage AWS resources, the role that node groups assume when pulling images
+    and registering with the control plane, and the role that the pipeline uses
+    to drive provisioning are all distinct, each carrying only the permissions
+    their function requires.
+  </p>
+
+  <p>
+    The goal was to ensure that no single credential compromise could propagate
+    beyond its intended scope. A misconfigured node should not be able to make
+    cluster-level API calls. A pipeline runner should not be able to do anything
+    outside its provisioning scope. Each identity is a narrow instrument.
+  </p>
+
+
+  <h2>Pipeline Automation</h2>
+
+  <p>
+    A GitHub Actions workflow drives the full infrastructure lifecycle. Provisioning,
+    validation, and teardown are all triggered through version-controlled events —
+    there is no separate runbook, no console step hidden between pipeline stages.
+  </p>
+
+  <p>
+    The pipeline authenticates into AWS using scoped credentials and executes
+    Terraform operations in sequence. State is managed consistently across runs.
+    The result is an infrastructure lifecycle that is auditable, repeatable, and
+    tied to the git history of the project rather than the memory of the person
+    who ran it last.
+  </p>
+
+
+  <h2>Design Decisions</h2>
+
+  <details class="case-step" open>
+    <summary>Why Terraform over console provisioning?</summary>
+    <p>
+      Console-provisioned infrastructure creates invisible state. There is no
+      record of why a security group rule exists or what depended on it. Terraform
+      forces every resource to be declared, every dependency to be explicit, and
+      every change to go through a plan before it applies. The infrastructure
+      becomes something you can read, review, and reason about — not something
+      you have to reverse-engineer.
+    </p>
+  </details>
+
+  <details class="case-step">
+    <summary>Why modular configurations rather than a flat layout?</summary>
+    <p>
+      A single flat Terraform file works fine until it doesn't. Modules enforce
+      a boundary between what something does and how it does it. They make it
+      possible to change the networking layer without touching the cluster
+      configuration, or to reuse node group patterns across environments without
+      duplicating logic. The upfront cost is structure. The payoff is maintainability.
+    </p>
+  </details>
+
+  <details class="case-step">
+    <summary>Why scope IAM roles per boundary rather than sharing them?</summary>
+    <p>
+      A shared role with broad permissions is a convenience that hides risk.
+      When a node group and a pipeline runner share credentials, the compromise
+      surface of each expands to include everything the other can do. Narrow roles
+      make the blast radius of any failure predictable. They also make the
+      intent of each identity legible in the policy — you can read the permissions
+      and immediately understand what the role is for.
+    </p>
+  </details>
+
+  <details class="case-step">
+    <summary>Why pipeline-only lifecycle management?</summary>
+    <p>
+      Manual infrastructure changes introduce drift — the gap between what the
+      code describes and what actually exists in the environment. Once that gap
+      exists, the codebase is no longer the source of truth. Restricting all
+      changes to the pipeline eliminates that gap by design. It also means
+      every infrastructure change is reviewed, logged, and reversible.
+    </p>
+  </details>
+
+
+  <h2>Outcome</h2>
+
+  <p>
+    The platform was successfully provisioned, validated, and torn down
+    exclusively through the pipeline — no manual console intervention at
+    any stage of the lifecycle. IAM roles were verified to hold minimum
+    required permissions at each boundary, and no over-provisioned access
+    was present in the final configuration.
+  </p>
+
+  <p>
+    This project represents a shift from infrastructure that is built to
+    one that is declared — where security is a structural property of
+    the system rather than a layer applied after the fact.
+  </p>
+
+</div>
+</section>
+
+
+<footer class="footer">
+  <p>© 2026 Srestha Mridha</p>
+</footer>
+
+<script src="../js/script.js"></script>
+
+</body>
+</html>
