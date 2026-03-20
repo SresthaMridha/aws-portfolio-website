@@ -1,5 +1,6 @@
 /* ============================================================
-   script.js — Portfolio interactions
+   script.js — Portfolio interactions v3
+   Updated for Ops Deck theme (cyan accent)
    ============================================================ */
 
 /* ===== CURSOR GLOW ===== */
@@ -19,8 +20,8 @@ if (canvas) {
   const ctx = canvas.getContext('2d');
   let W, H, nodes;
   const COUNT = 55;
-  const CONNECT_DIST = 150;
-  const ACCENT = '0, 212, 170';
+  const CONNECT_DIST = 140;
+  const ACCENT = '0, 200, 255'; /* cyan — matches --accent: #00C8FF */
 
   function resize() {
     W = canvas.width  = canvas.offsetWidth;
@@ -31,41 +32,37 @@ if (canvas) {
     nodes = Array.from({ length: COUNT }, () => ({
       x:  Math.random() * W,
       y:  Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      r:  Math.random() * 2 + 1,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r:  Math.random() * 1.8 + 0.8,
     }));
   }
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
-    // connections
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const dx = nodes[i].x - nodes[j].x;
         const dy = nodes[i].y - nodes[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < CONNECT_DIST) {
-          const alpha = (1 - dist / CONNECT_DIST) * 0.35;
+          const alpha = (1 - dist / CONNECT_DIST) * 0.25;
           ctx.beginPath();
           ctx.moveTo(nodes[i].x, nodes[i].y);
           ctx.lineTo(nodes[j].x, nodes[j].y);
           ctx.strokeStyle = `rgba(${ACCENT}, ${alpha})`;
-          ctx.lineWidth = 1;
+          ctx.lineWidth = 0.8;
           ctx.stroke();
         }
       }
     }
 
-    // nodes
     nodes.forEach(n => {
       ctx.beginPath();
       ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${ACCENT}, 0.7)`;
+      ctx.fillStyle = `rgba(${ACCENT}, 0.5)`;
       ctx.fill();
-
-      // move
       n.x += n.vx;
       n.y += n.vy;
       if (n.x < 0 || n.x > W) n.vx *= -1;
@@ -82,7 +79,7 @@ if (canvas) {
 }
 
 
-/* ===== TEXT SCRAMBLE on h1 ===== */
+/* ===== TEXT SCRAMBLE on hero h1 ===== */
 class Scramble {
   constructor(el) {
     this.el    = el;
@@ -98,7 +95,7 @@ class Scramble {
         .split('')
         .map((ch, i) => {
           if (i < iter) return orig[i];
-          if (ch === ' ') return ' ';
+          if (ch === ' ' || ch === '\n') return ch;
           return this.chars[Math.floor(Math.random() * this.chars.length)];
         })
         .join('');
@@ -116,26 +113,22 @@ window.addEventListener('load', () => {
 
 /* ===== SCROLL REVEAL ===== */
 const reveals = document.querySelectorAll('.reveal');
-
-const observer = new IntersectionObserver((entries) => {
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-    }
+    if (entry.isIntersecting) entry.target.classList.add('active');
   });
-}, { threshold: 0.1 });
-
-reveals.forEach(el => observer.observe(el));
+}, { threshold: 0.08 });
+reveals.forEach(el => revealObserver.observe(el));
 
 
 /* ===== MAGNETIC CARD HOVER ===== */
-document.querySelectorAll('.card, .stat, .validation-card, .decision-card, .learning-card').forEach(card => {
+document.querySelectorAll('.proj-card, .bento-card, .stat-cell, .service-card').forEach(card => {
   card.addEventListener('mousemove', e => {
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width  / 2;
     const y = e.clientY - rect.top  - rect.height / 2;
-    const strength = 6;
-    card.style.transform = `translateY(-6px) rotateX(${-y / rect.height * strength}deg) rotateY(${x / rect.width * strength}deg)`;
+    const strength = 4;
+    card.style.transform = `translateY(-4px) rotateX(${-y / rect.height * strength}deg) rotateY(${x / rect.width * strength}deg)`;
   });
   card.addEventListener('mouseleave', () => {
     card.style.transform = '';
@@ -144,9 +137,9 @@ document.querySelectorAll('.card, .stat, .validation-card, .decision-card, .lear
 
 
 /* ===== LIGHTBOX ===== */
-const lightbox     = document.getElementById('lightbox');
-const lightboxImg  = document.getElementById('lightbox-img');
-const lightboxClose= document.getElementById('lightbox-close');
+const lightbox      = document.getElementById('lightbox');
+const lightboxImg   = document.getElementById('lightbox-img');
+const lightboxClose = document.getElementById('lightbox-close');
 
 if (lightbox) {
   document.querySelectorAll('.image-grid img').forEach(img => {
@@ -155,7 +148,6 @@ if (lightbox) {
       lightboxImg.src = img.src;
     });
   });
-
   lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
   lightbox.addEventListener('click', e => {
     if (e.target === lightbox) lightbox.classList.remove('active');
@@ -163,7 +155,7 @@ if (lightbox) {
 }
 
 
-/* ===== ACTIVE NAV SECTION ===== */
+/* ===== ACTIVE NAV HIGHLIGHT on scroll ===== */
 const sections = document.querySelectorAll('section[id]');
 const navLinks  = document.querySelectorAll('.nav-links a');
 
@@ -179,3 +171,28 @@ window.addEventListener('scroll', () => {
     }
   });
 }, { passive: true });
+
+
+/* ===== LEARNING TRACKER — progress bar entrance animation ===== */
+const bars = document.querySelectorAll('.track-bar-fill, .lp-bar-fill');
+const barObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = el.style.width;
+      el.style.width = '0';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { el.style.width = target; });
+      });
+      barObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.3 });
+bars.forEach(b => barObserver.observe(b));
+
+
+/* ===== LEARNING TRACKER — collapsible tracks ===== */
+function toggleTrack(headerEl) {
+  const track = headerEl.closest('.track');
+  track.classList.toggle('expanded');
+}

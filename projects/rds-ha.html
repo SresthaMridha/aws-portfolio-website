@@ -1,288 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RDS Multi-AZ High Availability Database | Srestha Mridha</title>
-
 <link rel="stylesheet" href="../css/style.css">
-
 </head>
-
-
 <body>
 
-<div id="lightbox">
-
-<span id="lightbox-close">&times;</span>
-
-<img id="lightbox-img">
-
-</div>
+<div id="lightbox"><span id="lightbox-close">&times;</span><img id="lightbox-img"></div>
 
 <nav class="navbar">
-
-<div class="logo">Srestha Mridha</div>
-
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-</ul>
-
+  <div class="logo">
+    <a href="../index.html" style="text-decoration:none;color:inherit;">
+      <span class="logo-bracket">[</span>srestha@cloud<span class="logo-bracket">]</span>
+    </a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="../index.html#projects">Projects</a></li>
+    <li><a href="../index.html#learning">Learning</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
 </nav>
 
 
-
 <section class="section project-layout">
-
 <div class="container">
 
-<h1>RDS Multi-AZ High Availability Database Deployment</h1>
-
-<div class="project-summary">
-
-<div class="summary-item">
-<span class="summary-label">Database</span>
-<span>MySQL 8.4</span>
-</div>
-
-<div class="summary-item">
-<span class="summary-label">Availability</span>
-<span>RDS Multi-AZ</span>
-</div>
-
-<div class="summary-item">
-<span class="summary-label">Storage</span>
-<span>gp3 · 200GB · 3000 IOPS</span>
-</div>
-
-<div class="summary-item">
-<span class="summary-label">Backup</span>
-<span>Automated + Snapshots</span>
-</div>
-
-</div>
-
-<p>
-This project demonstrates the deployment of a production-style relational
-database using Amazon RDS with Multi-AZ high availability. The setup
-includes automated backups, encryption, monitoring, and snapshot
-management to ensure durability and operational resilience.
-</p>
-
-
-
-<h2>Objective</h2>
-
-<ul>
-
-<li>Deploy a highly available MySQL database</li>
-<li>Implement synchronous standby replication</li>
-<li>Enable automated backups with point-in-time recovery</li>
-<li>Secure the database and protect against accidental deletion</li>
-
-</ul>
-
-
-
-<h2>Architecture Overview</h2>
-
-<p>The database architecture follows AWS Multi-AZ deployment:</p>
-
-<p>
-
-<strong>
-Application Layer → RDS Primary Instance → Synchronous Replication →
-Standby Instance (Secondary AZ)
-</strong>
-
-</p>
-
-<p>
-
-The primary instance processes application read/write operations while
-the standby replica continuously synchronizes data in another availability
-zone. If the primary instance fails, AWS automatically performs failover
-to the standby instance.
-
-</p>
-
-
-
-<h2>Database Configuration</h2>
-
-<ul>
-
-<li>Engine: MySQL Community</li>
-<li>Version: 8.4.7</li>
-<li>Instance class: db.m7g.large</li>
-<li>vCPU: 2</li>
-<li>RAM: 8 GB</li>
-
-<li>Storage type: General Purpose SSD (gp3)</li>
-<li>Allocated storage: 200 GiB</li>
-<li>Provisioned IOPS: 3000</li>
-<li>Storage throughput: 125 MiB/s</li>
-
-<li>Storage autoscaling enabled</li>
-
-</ul>
-
-
-
-<h2>High Availability Design</h2>
-
-<ul>
-
-<li>Multi-AZ deployment enabled</li>
-<li>Synchronous replication to standby instance</li>
-<li>Automatic failover handled by AWS</li>
-<li>Standby instance remains inaccessible to applications</li>
-
-</ul>
-
-<p>
-
-This configuration ensures minimal downtime during infrastructure
-failures.
-
-</p>
-
-
-
-<h2>Backup and Recovery Strategy</h2>
-
-<ul>
-
-<li>Automated backups enabled</li>
-<li>Backup retention period: 7 days</li>
-<li>Point-in-Time Recovery supported</li>
-<li>Backup window configured</li>
-<li>Manual snapshots created for additional restore points</li>
-
-</ul>
-
-<p>
-
-Manual snapshots provide an additional recovery mechanism beyond
-automated backups.
-
-</p>
-
-
-
-<h2>Security Configuration</h2>
-
-<ul>
-
-<li>Database encryption enabled using AWS KMS</li>
-<li>Public access disabled</li>
-<li>Deletion protection enabled</li>
-<li>Database accessible only from application layer</li>
-
-</ul>
-
-
-
-<h2>Monitoring and Observability</h2>
-
-<ul>
-
-<li>Enhanced Monitoring enabled</li>
-<li>Performance Insights enabled</li>
-<li>Monitoring granularity set to 60 seconds</li>
-<li>IAM monitoring role configured</li>
-
-</ul>
-
-<p>
-
-Monitoring metrics provide visibility into database performance,
-resource utilization, and query activity.
-
-</p>
-
-
-
-<h2>Operational Testing</h2>
-
-<ul>
-
-<li>Verified Multi-AZ configuration status</li>
-<li>Confirmed automated backups functioning</li>
-<li>Created manual snapshot and verified availability</li>
-<li>Validated encryption and monitoring configuration</li>
-
-</ul>
-
-
-
-<h2>Screenshots & Evidence</h2>
-
-<div class="image-grid">
-
-<img src="../assets/images/rds-ha/architecture.png"
-alt="RDS Multi-AZ Architecture">
-
-<img src="../assets/images/rds-ha/summary.png"
-alt="RDS Instance Summary">
-
-<img src="../assets/images/rds-ha/configuration.png"
-alt="RDS Configuration">
-
-<img src="../assets/images/rds-ha/backups.png"
-alt="Backup Configuration">
-
-<img src="../assets/images/rds-ha/snapshots.png"
-alt="Snapshots">
-
-<img src="../assets/images/rds-ha/maintenance.png"
-alt="Maintenance Settings">
+  <h1>RDS Multi-AZ High Availability Database Deployment</h1>
+
+  <div class="project-summary">
+    <div class="summary-item">
+      <span class="summary-label">Database</span>
+      <span>MySQL 8.4</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Availability</span>
+      <span>RDS Multi-AZ</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Storage</span>
+      <span>gp3 · 200GB · 3000 IOPS</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Backup</span>
+      <span>Automated + Snapshots</span>
+    </div>
+  </div>
+
+  <p>
+    This project demonstrates the deployment of a production-style relational database using
+    Amazon RDS with Multi-AZ high availability. The setup includes automated backups, encryption,
+    monitoring, and snapshot management to ensure durability and operational resilience.
+  </p>
+
+  <h2>Objective</h2>
+  <ul>
+    <li>Deploy a highly available MySQL database</li>
+    <li>Implement synchronous standby replication</li>
+    <li>Enable automated backups with point-in-time recovery</li>
+    <li>Secure the database and protect against accidental deletion</li>
+  </ul>
+
+  <h2>Architecture Overview</h2>
+  <p><strong>Application Layer → RDS Primary Instance → Synchronous Replication → Standby Instance (Secondary AZ)</strong></p>
+  <p>
+    The primary instance processes application read/write operations while the standby replica
+    continuously synchronizes data in another availability zone. If the primary instance fails,
+    AWS automatically performs failover to the standby instance.
+  </p>
+
+  <details class="case-step" open>
+    <summary>Database Configuration</summary>
+    <ul>
+      <li>Engine: MySQL Community 8.4.7</li>
+      <li>Instance class: db.m7g.large (2 vCPU, 8 GB RAM)</li>
+      <li>Storage type: General Purpose SSD (gp3)</li>
+      <li>Allocated storage: 200 GiB · Provisioned IOPS: 3000</li>
+      <li>Storage throughput: 125 MiB/s · Autoscaling enabled</li>
+    </ul>
+  </details>
+
+  <details class="case-step">
+    <summary>High Availability Design</summary>
+    <ul>
+      <li>Multi-AZ deployment enabled</li>
+      <li>Synchronous replication to standby instance</li>
+      <li>Automatic failover handled by AWS</li>
+      <li>Standby instance remains inaccessible to applications</li>
+    </ul>
+    <p>This configuration ensures minimal downtime during infrastructure failures.</p>
+  </details>
+
+  <details class="case-step">
+    <summary>Backup and Recovery Strategy</summary>
+    <ul>
+      <li>Automated backups enabled with 7-day retention</li>
+      <li>Point-in-Time Recovery supported</li>
+      <li>Backup window configured</li>
+      <li>Manual snapshots created for additional restore points</li>
+    </ul>
+  </details>
+
+  <details class="case-step">
+    <summary>Security Configuration</summary>
+    <ul>
+      <li>Database encryption enabled using AWS KMS</li>
+      <li>Public access disabled</li>
+      <li>Deletion protection enabled</li>
+      <li>Database accessible only from application layer</li>
+    </ul>
+  </details>
+
+  <details class="case-step">
+    <summary>Monitoring and Observability</summary>
+    <ul>
+      <li>Enhanced Monitoring enabled (60s granularity)</li>
+      <li>Performance Insights enabled</li>
+      <li>IAM monitoring role configured</li>
+    </ul>
+    <p>Monitoring metrics provide visibility into database performance, resource utilization, and query activity.</p>
+  </details>
+
+  <h2>Screenshots & Evidence</h2>
+  <div class="image-grid">
+    <img src="../assets/images/rds-ha/architecture.png" alt="RDS Multi-AZ Architecture">
+    <img src="../assets/images/rds-ha/summary.png" alt="RDS Instance Summary">
+    <img src="../assets/images/rds-ha/configuration.png" alt="RDS Configuration">
+    <img src="../assets/images/rds-ha/backups.png" alt="Backup Configuration">
+    <img src="../assets/images/rds-ha/snapshots.png" alt="Snapshots">
+    <img src="../assets/images/rds-ha/maintenance.png" alt="Maintenance Settings">
+  </div>
+
+  <h2>Project Repository</h2>
+  <p>
+    <a href="https://github.com/SresthaMridha/aws-rds-multiaz-ha-database.git" target="_blank">
+      View the GitHub Repository →
+    </a>
+  </p>
+
+  <h2>Outcome</h2>
+  <p>
+    The deployment successfully implemented a resilient database architecture capable of automatic
+    failover during infrastructure failures. Automated backups, encryption, and monitoring ensure
+    data durability and operational visibility. This architecture pattern is widely used in
+    production SaaS applications where database availability and data protection are critical.
+  </p>
 
 </div>
-
-<h2>Project Repository</h2>
-
-<p>
-
-<a href="https://github.com/SresthaMridha/aws-rds-multiaz-ha-database.git" target="_blank">
-View the GitHub Repository
-</a>
-
-</p>
-
-<h2>Outcome</h2>
-
-<p>
-
-The deployment successfully implemented a resilient database
-architecture capable of automatic failover during infrastructure
-failures. Automated backups, encryption, and monitoring ensure
-data durability and operational visibility.
-
-</p>
-
-<p>
-
-This architecture pattern is widely used in production SaaS
-applications where database availability and data protection
-are critical.
-
-</p>
-
-
-</div>
-
 </section>
 
-
-
 <footer class="footer">
-
-<p>© 2026 Srestha Mridha</p>
-
+  <p>© 2026 Srestha Mridha &nbsp;·&nbsp; <a href="../index.html">Back to Home</a></p>
 </footer>
-<script src="../js/script.js"></script>
 
+<script src="../js/script.js"></script>
 </body>
 </html>

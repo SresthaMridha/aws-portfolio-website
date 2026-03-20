@@ -1,287 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-<title>Auto-Scaling Web Infrastructure with ALB | Srestha Mridha</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>High Availability 3-Tier SaaS Architecture on AWS | Srestha Mridha</title>
 <link rel="stylesheet" href="../css/style.css">
-
 </head>
-
-
 <body>
 
-<div id="lightbox">
-
-<span id="lightbox-close">&times;</span>
-
-<img id="lightbox-img">
-
-</div>
+<div id="lightbox"><span id="lightbox-close">&times;</span><img id="lightbox-img"></div>
 
 <nav class="navbar">
-
-<div class="logo">Srestha Mridha</div>
-
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-</ul>
-
+  <div class="logo">
+    <a href="../index.html" style="text-decoration:none;color:inherit;">
+      <span class="logo-bracket">[</span>srestha@cloud<span class="logo-bracket">]</span>
+    </a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="../index.html#projects">Projects</a></li>
+    <li><a href="../index.html#learning">Learning</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
 </nav>
 
 
-
 <section class="section project-layout">
-
 <div class="container">
 
-<h1>High Availability 3-Tier SaaS Architecture on AWS</h1>
-
-<div class="project-summary">
-
-<div class="summary-item">
-<span class="summary-label">Architecture</span>
-<span>3-Tier High Availability</span>
-</div>
-
-<div class="summary-item">
-<span class="summary-label">Services</span>
-<span>VPC · ALB · EC2 · ASG · RDS</span>
-</div>
-
-<div class="summary-item">
-<span class="summary-label">Availability</span>
-<span>Multi-AZ</span>
-</div>
-
-<div class="summary-item">
-<span class="summary-label">Networking</span>
-<span>Public + Private Subnets</span>
-</div>
-
-</div>
-
-<p>
-This project demonstrates a production-style web application architecture
-designed for high availability and resilience. The system distributes
-traffic across multiple availability zones using an Application Load
-Balancer and Auto Scaling Group while automatically replacing failed
-instances.
-</p>
-
-
-
-<h2>Objective</h2>
-
-<ul>
-
-<li>Design a resilient multi-AZ web infrastructure</li>
-<li>Distribute traffic using an Application Load Balancer</li>
-<li>Automatically replace unhealthy compute instances</li>
-<li>Implement horizontal scaling during load spikes</li>
-
-</ul>
-
-
-
-<h2>Architecture Overview</h2>
-
-<p>The system follows a layered architecture:</p>
-
-<p>
-
-<strong>
-User → Internet-Facing Application Load Balancer → Target Group →
-Auto Scaling Group → EC2 Instances
-</strong>
-
-</p>
-
-<p>
-
-Incoming traffic is distributed across EC2 instances running in multiple
-availability zones. Health checks ensure traffic is routed only to healthy
-instances, while the Auto Scaling Group automatically launches replacement
-instances if failures occur.
-
-</p>
-
-
-
-<h2>Application Load Balancer</h2>
-
-<ul>
-
-<li>Load balancer type: Application Load Balancer</li>
-<li>Scheme: Internet-facing</li>
-<li>IP address type: IPv4</li>
-<li>Availability Zones: 2</li>
-<li>Routes requests to EC2 instances through target groups</li>
-
-</ul>
-
-
-
-<h2>Target Group Configuration</h2>
-
-<ul>
-
-<li>Protocol: HTTP</li>
-<li>Port: 80</li>
-<li>Target type: Instance</li>
-<li>Health check path: "/"</li>
-<li>Healthy threshold: 2</li>
-
-</ul>
-
-<p>
-Only instances passing health checks receive traffic.
-Unhealthy instances are automatically removed from the routing pool.
-</p>
-
-
-
-<h2>Auto Scaling Group</h2>
-
-<ul>
-
-<li>Minimum capacity: 1 instance</li>
-<li>Maximum capacity: 2 instances</li>
-<li>Desired capacity: 1 instance</li>
-<li>Balanced distribution across availability zones</li>
-
-</ul>
-
-<p>
-
-The Auto Scaling Group ensures application availability by replacing
-failed instances and maintaining the configured capacity level.
-
-</p>
-
-
-
-<h2>Compute Layer (EC2)</h2>
-
-<ul>
-
-<li>Instance type: t2.micro</li>
-<li>Web server: Apache installed via user-data script</li>
-<li>Instances deployed across multiple availability zones</li>
-<li>Security group allows traffic only from the load balancer</li>
-
-</ul>
-
-<p>
-
-User-data scripts automatically configure each instance at launch,
-ensuring consistent application environments.
-
-</p>
-
-
-
-<h2>Scaling Strategy</h2>
-
-<ul>
-
-<li>CPU-based scaling policy</li>
-<li>Target CPU utilization: 50%</li>
-<li>Instances launch automatically when load increases</li>
-<li>Prevents over-provisioning while maintaining performance</li>
-
-</ul>
-
-
-
-<h2>Security Design</h2>
-
-<ul>
-
-<li>Internet traffic enters only through the ALB</li>
-<li>EC2 instances accept inbound traffic only from ALB security group</li>
-<li>No direct public access to backend instances</li>
-
-</ul>
-
-
-
-<h2>Operational Testing</h2>
-
-<ul>
-
-<li>Verified ALB routing to healthy instances</li>
-<li>Simulated instance failure</li>
-<li>Observed Auto Scaling Group launching replacement instance</li>
-<li>Confirmed application accessibility through ALB DNS endpoint</li>
-
-</ul>
-
-
-
-<h2>Screenshots & Evidence</h2>
-
-<div class="image-grid">
-
-<img src="../assets/images/saas-3tier/architecture.png"
-alt="Architecture Diagram">
-
-<img src="../assets/images/saas-3tier/alb.png"
-alt="Application Load Balancer">
-
-<img src="../assets/images/saas-3tier/target-group.png"
-alt="Target Group Health">
-
-<img src="../assets/images/saas-3tier/asg.png"
-alt="Auto Scaling Group">
-
-<img src="../assets/images/saas-3tier/ec2.png"
-alt="EC2 Instance">
-
-<img src="../assets/images/saas-3tier/browser.png"
-alt="Application via Load Balancer">
+  <h1>High Availability 3-Tier SaaS Architecture on AWS</h1>
+
+  <div class="project-summary">
+    <div class="summary-item">
+      <span class="summary-label">Architecture</span>
+      <span>3-Tier High Availability</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Services</span>
+      <span>VPC · ALB · EC2 · ASG · RDS</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Availability</span>
+      <span>Multi-AZ</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Networking</span>
+      <span>Public + Private Subnets</span>
+    </div>
+  </div>
+
+  <p>
+    This project demonstrates a production-style web application architecture designed for
+    high availability and resilience. The system distributes traffic across multiple availability
+    zones using an Application Load Balancer and Auto Scaling Group while automatically
+    replacing failed instances.
+  </p>
+
+  <h2>Objective</h2>
+  <ul>
+    <li>Design a resilient multi-AZ web infrastructure</li>
+    <li>Distribute traffic using an Application Load Balancer</li>
+    <li>Automatically replace unhealthy compute instances</li>
+    <li>Implement horizontal scaling during load spikes</li>
+  </ul>
+
+  <h2>Architecture Overview</h2>
+  <p>
+    <strong>User → Internet-Facing ALB → Target Group → Auto Scaling Group → EC2 Instances</strong>
+  </p>
+  <p>
+    Incoming traffic is distributed across EC2 instances running in multiple availability zones.
+    Health checks ensure traffic is routed only to healthy instances, while the Auto Scaling Group
+    automatically launches replacement instances if failures occur.
+  </p>
+
+  <details class="case-step" open>
+    <summary>Application Load Balancer</summary>
+    <ul>
+      <li>Type: Application Load Balancer (internet-facing)</li>
+      <li>IP address type: IPv4</li>
+      <li>Availability Zones: 2</li>
+      <li>Routes requests to EC2 instances through target groups</li>
+    </ul>
+  </details>
+
+  <details class="case-step">
+    <summary>Target Group Configuration</summary>
+    <ul>
+      <li>Protocol: HTTP · Port: 80 · Target type: Instance</li>
+      <li>Health check path: "/" · Healthy threshold: 2</li>
+      <li>Unhealthy instances automatically removed from routing pool</li>
+    </ul>
+  </details>
+
+  <details class="case-step">
+    <summary>Auto Scaling Group</summary>
+    <ul>
+      <li>Minimum: 1 instance · Maximum: 2 instances · Desired: 1</li>
+      <li>Balanced distribution across availability zones</li>
+      <li>Replaces failed instances automatically</li>
+    </ul>
+  </details>
+
+  <details class="case-step">
+    <summary>Compute Layer (EC2)</summary>
+    <ul>
+      <li>Instance type: t2.micro</li>
+      <li>Web server: Apache installed via user-data script</li>
+      <li>Deployed across multiple availability zones</li>
+      <li>Security group allows traffic only from the load balancer</li>
+    </ul>
+    <p>User-data scripts automatically configure each instance at launch, ensuring consistent environments.</p>
+  </details>
+
+  <details class="case-step">
+    <summary>Scaling Strategy</summary>
+    <ul>
+      <li>CPU-based scaling policy</li>
+      <li>Target CPU utilization: 50%</li>
+      <li>Instances launch automatically when load increases</li>
+      <li>Prevents over-provisioning while maintaining performance</li>
+    </ul>
+  </details>
+
+  <details class="case-step">
+    <summary>Security Design</summary>
+    <ul>
+      <li>Internet traffic enters only through the ALB</li>
+      <li>EC2 instances accept inbound traffic only from ALB security group</li>
+      <li>No direct public access to backend instances</li>
+    </ul>
+  </details>
+
+  <h2>Screenshots & Evidence</h2>
+  <div class="image-grid">
+    <img src="../assets/images/saas-3tier/architecture.png" alt="Architecture Diagram">
+    <img src="../assets/images/saas-3tier/alb.png" alt="Application Load Balancer">
+    <img src="../assets/images/saas-3tier/target-group.png" alt="Target Group Health">
+    <img src="../assets/images/saas-3tier/asg.png" alt="Auto Scaling Group">
+    <img src="../assets/images/saas-3tier/ec2.png" alt="EC2 Instance">
+    <img src="../assets/images/saas-3tier/browser.png" alt="Application via Load Balancer">
+  </div>
+
+  <h2>Project Repository</h2>
+  <p>
+    <a href="https://github.com/SresthaMridha/aws-ha-webapp-alb-asg.git" target="_blank">
+      View the GitHub Repository →
+    </a>
+  </p>
+
+  <h2>Outcome</h2>
+  <p>
+    The architecture successfully demonstrated a resilient web application infrastructure
+    capable of handling instance failures and distributing traffic across multiple availability
+    zones. This deployment pattern forms the foundation of scalable SaaS applications deployed
+    in modern cloud environments.
+  </p>
 
 </div>
-
-<h2>Project Repository</h2>
-
-<p>
-
-<a href="https://github.com/SresthaMridha/aws-ha-webapp-alb-asg.git" target="_blank">
-View the GitHub Repository
-</a>
-
-</p>
-
-<h2>Outcome</h2>
-
-<p>
-
-The architecture successfully demonstrated a resilient web application
-infrastructure capable of handling instance failures and distributing
-traffic across multiple availability zones.
-
-</p>
-
-<p>
-
-This deployment pattern forms the foundation of scalable SaaS
-applications deployed in modern cloud environments.
-
-</p>
-
-</div>
-
 </section>
 
-
-
 <footer class="footer">
-
-<p>© 2026 Srestha Mridha</p>
-
+  <p>© 2026 Srestha Mridha &nbsp;·&nbsp; <a href="../index.html">Back to Home</a></p>
 </footer>
 
 <script src="../js/script.js"></script>

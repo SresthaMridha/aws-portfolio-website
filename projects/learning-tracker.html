@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning Progress Tracker | Srestha Mridha</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+/* ── Edit panel overlay ── */
+.edit-panel {
+  position: fixed;
+  top: 68px;
+  right: 0;
+  width: 340px;
+  height: calc(100vh - 68px);
+  background: var(--bg-surface);
+  border-left: 1px solid var(--border-accent);
+  z-index: 900;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: -16px 0 48px rgba(0,0,0,0.5);
+}
+.edit-panel.open { display: flex; }
+.edit-panel-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.edit-panel-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.edit-panel-close {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  color: var(--text-muted);
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+  line-height: 1;
+}
+.edit-panel-close:hover { color: var(--accent); }
+.edit-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* per-track edit block */
+.ep-track {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ep-track-name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.ep-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.ep-row label { white-space: nowrap; min-width: 52px; }
+.ep-range {
+  flex: 1;
+  accent-color: var(--accent);
+  cursor: pointer;
+  height: 4px;
+}
+.ep-pct {
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 34px;
+  text-align: right;
+}
+.ep-status {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  background: var(--bg);
+  border: 1px solid var(--border-accent);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+}
+.ep-divider {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  margin-top: 2px;
+}
+.ep-subtopics { display: flex; flex-direction: column; gap: 6px; }
+.ep-sub-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+.ep-sub-name {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ep-sub-status {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 3px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.ep-save {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 10px;
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s;
+  font-weight: 700;
+}
+.ep-save:hover { background: rgba(0,200,255,0.15); }
+
+.ep-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.ep-save-all {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.25s;
+  font-weight: 700;
+}
+.ep-save-all:hover { background: #33d4ff; box-shadow: 0 0 24px rgba(0,200,255,0.25); }
+.ep-reset {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ep-reset:hover { border-color: rgba(255,80,80,0.4); color: #ff5050; }
+
+/* page shift when panel open */
+.page-shifted .section,
+.page-shifted .container,
+.page-shifted footer { padding-right: 340px; }
+
+/* toast */
+.save-toast {
+  position: fixed;
+  bottom: 90px;
+  right: 32px;
+  background: var(--green-dim);
+  border: 1px solid rgba(0,229,160,0.3);
+  color: var(--green);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s;
+  pointer-events: none;
+  z-index: 1000;
+}
+.save-toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo"><span class="logo-bracket">[</span>srestha@cloud<span class="logo-bracket">]</span></div>
+  <ul class="nav-links">
+    <li><a href="../index.html">← Home</a></li>
+  </ul>
+</nav>
+
+<!-- EDIT PANEL (sidebar) -->
+<div class="edit-panel" id="editPanel">
+  <div class="edit-panel-header">
+    <span class="edit-panel-title">// Edit Progress</span>
+    <button class="edit-panel-close" onclick="toggleEditPanel()">&times;</button>
+  </div>
+  <div class="edit-panel-body" id="editPanelBody">
+    <!-- Rendered by JS -->
+  </div>
+  <div class="ep-footer">
+    <button class="ep-save-all" onclick="saveAllChanges()">✓ Save All Changes</button>
+    <button class="ep-reset" onclick="resetToDefaults()">Reset to defaults</button>
+  </div>
+</div>
+
+<!-- EDIT TOGGLE BUTTON -->
+<button class="edit-mode-btn" id="editBtn" onclick="toggleEditPanel()">
+  <span class="edit-dot"></span>
+  Edit Progress
+</button>
+
+<!-- SAVE TOAST -->
+<div class="save-toast" id="saveToast">✓ Progress saved to browser</div>
+
+
+<!-- PAGE -->
+<section class="section project-layout" style="transition: padding-right 0.3s;">
+<div class="container">
+
+  <div class="tracker-header">
+    <span class="section-label">Skill Progression</span>
+    <h1>Learning Progress Tracker</h1>
+    <p class="tracker-meta" id="trackerMeta">// last updated: March 2026 &nbsp;·&nbsp; Cloud Infrastructure & DevOps path</p>
+  </div>
+
+  <div class="overall-progress" id="overallStats">
+    <div class="stat-chip highlight">
+      <span class="chip-label">Topics Completed</span>
+      <span class="chip-value" id="statDone">28 <span>subtopics</span></span>
+    </div>
+    <div class="stat-chip">
+      <span class="chip-label">In Progress</span>
+      <span class="chip-value" id="statActive" style="color:#ffb800;">17 <span style="font-size:16px;color:var(--text-muted);">active</span></span>
+    </div>
+    <div class="stat-chip">
+      <span class="chip-label">Planned Next</span>
+      <span class="chip-value" id="statPlanned" style="color:var(--text-muted);">37 <span>queued</span></span>
+    </div>
+  </div>
+
+  <div class="tracker-legend">
+    <div class="legend-item"><span class="legend-dot done"></span> Completed</div>
+    <div class="legend-item"><span class="legend-dot active"></span> In Progress</div>
+    <div class="legend-item"><span class="legend-dot planned"></span> Planned</div>
+  </div>
+
+  <div class="tracks-container" id="tracksContainer">
+    <!-- Rendered by JS -->
+  </div>
+
+</div>
+</section>
+
+<footer class="footer">
+  <p>© 2026 Srestha Mridha</p>
+</footer>
+
+
+<script src="../js/script.js"></script>
+<script>
+
+/* ============================================================
+   TRACKER DATA MODEL + INTERACTIVE EDITOR
+   Data stored in localStorage. Falls back to DEFAULT_DATA.
+   ============================================================ */
+
+const DEFAULT_DATA = {
+  lastUpdated: 'March 2026',
+  tracks: [
+    {
+      id: 'aws-core',
+      name: 'AWS Core Infrastructure',
+      desc: 'Foundational AWS services for production cloud architecture',
+      icon: 'cloud',
+      status: 'done',
+      pct: 100,
+      subtopics: [
+        { name: 'VPC Design & Subnetting', status: 'done', note: 'CIDR blocks, public/private subnet architecture' },
+        { name: 'Internet Gateway & NAT Gateway', status: 'done', note: 'Inbound/outbound routing, route tables' },
+        { name: 'Security Groups & NACLs', status: 'done', note: 'Layered access model, security group chaining' },
+        { name: 'EC2 & Launch Templates', status: 'done', note: 'Instance types, AMIs, user-data scripts' },
+        { name: 'Auto Scaling Groups', status: 'done', note: 'Scaling policies, health checks, replacement logic' },
+        { name: 'Application Load Balancer', status: 'done', note: 'Target groups, listener rules, health checks' },
+        { name: 'RDS Multi-AZ', status: 'done', note: 'Synchronous replication, automated failover, backups' },
+        { name: 'S3 & CloudFront (OAC)', status: 'done', note: 'Private origin, CDN delivery, HTTPS enforcement' },
+        { name: 'SSM Session Manager', status: 'done', note: 'Bastion-less access, fleet management' },
+        { name: 'Route 53', status: 'done', note: 'DNS routing, health checks, failover policies' },
+        { name: 'CloudWatch & Alarms', status: 'done', note: 'Custom metrics, dashboards, alarm-triggered scaling' },
+      ]
+    },
+    {
+      id: 'terraform',
+      name: 'Terraform & Infrastructure as Code',
+      desc: 'Declarative provisioning, state management, and modular design',
+      icon: 'terminal',
+      status: 'active',
+      pct: 55,
+      subtopics: [
+        { name: 'Providers, Resources & Syntax', status: 'done', note: 'HCL basics, resource blocks, provider config' },
+        { name: 'Variables, Outputs & Locals', status: 'done', note: 'Input/output values, local expressions' },
+        { name: 'Modular Configuration', status: 'done', note: 'Separation of concerns: networking, cluster, IAM' },
+        { name: 'State Management', status: 'done', note: 'Remote state, state locking, terraform.tfstate' },
+        { name: 'Workspaces', status: 'active', note: 'Multi-environment state separation' },
+        { name: 'Data Sources', status: 'active', note: 'Reading existing infrastructure into configs' },
+        { name: 'Dynamic Blocks & Count/For-Each', status: 'active', note: 'Programmatic nested resource generation' },
+        { name: 'Provisioners', status: 'planned', note: 'Executing scripts at resource creation time' },
+        { name: 'Terraform Import', status: 'planned', note: 'Bringing console-created resources under IaC control' },
+        { name: 'Terragrunt', status: 'planned', note: 'DRY configurations, multi-account deployments' },
+      ]
+    },
+    {
+      id: 'containers',
+      name: 'Containers & Kubernetes',
+      desc: 'Docker, EKS, and container orchestration at scale',
+      icon: 'box',
+      status: 'active',
+      pct: 44,
+      subtopics: [
+        { name: 'Docker Fundamentals', status: 'done', note: 'Images, containers, layers, runtimes' },
+        { name: 'Dockerfile & Image Building', status: 'done', note: 'Multi-stage builds, Nginx static serving' },
+        { name: 'Container Registry (Docker Hub)', status: 'done', note: 'Image tagging, pushing, pulling' },
+        { name: 'Amazon EKS Provisioning', status: 'done', note: 'Cluster setup via Terraform, node groups, kubeconfig' },
+        { name: 'Docker Compose', status: 'active', note: 'Multi-container local environments' },
+        { name: 'Kubernetes Core Objects', status: 'active', note: 'Architecture understood; Pods, Deployments, Services' },
+        { name: 'Container Security Hardening', status: 'active', note: 'Non-root users, read-only fs, securityContext' },
+        { name: 'Helm Charts', status: 'planned', note: 'Templated Kubernetes application packaging' },
+        { name: 'Ingress Controllers & Networking', status: 'planned', note: 'AWS Load Balancer Controller, service mesh basics' },
+      ]
+    },
+    {
+      id: 'devsecops',
+      name: 'DevSecOps & Pipeline Automation',
+      desc: 'CI/CD, security scanning, and policy-driven infrastructure',
+      icon: 'git-branch',
+      status: 'active',
+      pct: 40,
+      subtopics: [
+        { name: 'GitHub Actions Workflows', status: 'done', note: 'Triggers, jobs, runners, steps' },
+        { name: 'CI Pipeline — Build & Push', status: 'done', note: 'Docker image build, Docker Hub publish automation' },
+        { name: 'Secrets Management in Pipelines', status: 'done', note: 'GitHub Secrets, secure injection at runtime' },
+        { name: 'Pipeline-Driven Terraform Lifecycle', status: 'active', note: 'plan/apply/destroy pipeline with env separation' },
+        { name: 'SAST & Vulnerability Scanning', status: 'active', note: 'Trivy, Checkov, tfsec integration in pipelines' },
+        { name: 'Policy as Code (OPA / Sentinel)', status: 'planned', note: 'Enforcing guardrails before infrastructure changes' },
+        { name: 'GitOps with ArgoCD / Flux', status: 'planned', note: 'Declarative cluster state from Git' },
+        { name: 'Compliance Automation', status: 'planned', note: 'AWS Config rules, drift detection, reporting' },
+        { name: 'AWS Secrets Manager & Parameter Store', status: 'planned', note: 'Runtime secret injection in EKS workloads' },
+      ]
+    },
+    {
+      id: 'iam-security',
+      name: 'IAM & Security Architecture',
+      desc: 'Identity, access control, and least-privilege design at every layer',
+      icon: 'shield',
+      status: 'active',
+      pct: 45,
+      subtopics: [
+        { name: 'IAM Users, Groups & Policies', status: 'done', note: 'Identity-based vs resource-based policies' },
+        { name: 'IAM Roles & Assume Role', status: 'done', note: 'Service roles, trust policies, cross-service access' },
+        { name: 'Least-Privilege Role Scoping', status: 'done', note: 'Cluster role, node role, pipeline role separation' },
+        { name: 'KMS Encryption', status: 'done', note: 'RDS at-rest encryption, key management' },
+        { name: 'Permission Boundaries', status: 'active', note: 'Delegated admin, scoped role creation' },
+        { name: 'IRSA (IAM Roles for Service Accounts)', status: 'active', note: 'Pod-level identity in EKS' },
+        { name: 'AWS Organizations & SCPs', status: 'planned', note: 'Multi-account guardrails' },
+        { name: 'AWS GuardDuty & Security Hub', status: 'planned', note: 'Threat detection and security posture management' },
+      ]
+    },
+    {
+      id: 'observability',
+      name: 'Observability & Monitoring',
+      desc: 'Metrics, logs, tracing, and alerting for cloud-native systems',
+      icon: 'activity',
+      status: 'active',
+      pct: 25,
+      subtopics: [
+        { name: 'CloudWatch Metrics & Dashboards', status: 'done', note: 'Custom metrics, alarm-triggered actions' },
+        { name: 'CloudWatch Logs & Log Insights', status: 'active', note: 'Structured logging, query-based analysis' },
+        { name: 'Prometheus & Grafana', status: 'planned', note: 'Metric scraping, PromQL, dashboarding' },
+        { name: 'ELK Stack', status: 'planned', note: 'Elasticsearch, Logstash, Kibana' },
+        { name: 'Distributed Tracing', status: 'planned', note: 'AWS X-Ray, OpenTelemetry' },
+        { name: 'Alertmanager', status: 'planned', note: 'Alert routing, silencing, and notification channels' },
+      ]
+    },
+    {
+      id: 'devops-shack',
+      name: 'DevOps Shack (16 Modules)',
+      desc: 'Structured hands-on DevOps program covering the full stack',
+      icon: 'layers',
+      status: 'active',
+      pct: 13,
+      subtopics: [
+        { name: 'M1 — Linux & Shell Scripting', status: 'done', note: 'Process management, file system, bash scripting' },
+        { name: 'M2 — Git & GitHub', status: 'done', note: 'Branching, merging, conflict resolution, remote workflows' },
+        { name: 'M3 — Jenkins CI/CD', status: 'planned', note: 'Pipeline as code, agents, integration with tools' },
+        { name: 'M4 — SonarQube', status: 'planned', note: 'Static analysis, quality gates, tech debt' },
+        { name: 'M5 — Maven & Build Tools', status: 'planned', note: 'POM.xml, build lifecycle, dependency management' },
+        { name: 'M6 — JFrog Artifactory', status: 'planned', note: 'Artifact storage, repository management' },
+        { name: 'M7 — Security Tools', status: 'planned', note: 'Trivy, OWASP, Prowler, Checkov, Gitleaks, Vault' },
+        { name: 'M8 — Nexus Artifact Management', status: 'planned', note: 'Hosted/proxy repos, Maven/NPM, private Docker registry' },
+        { name: 'M9 — Docker Deep Dive', status: 'planned', note: 'Multi-stage builds, Compose, networking, 9 projects' },
+        { name: 'M10 — Kubernetes', status: 'active', note: 'Architecture understood; working through objects, RBAC, Helm, ArgoCD, EKS' },
+        { name: 'M11 — Azure DevOps', status: 'planned', note: 'Azure Repos, Pipelines, AKS, ACR, YAML pipelines' },
+        { name: 'M12 — Terraform / IaC Deep Dive', status: 'active', note: 'Modules, workspaces, EKS provisioning, Jenkins integration' },
+        { name: 'M13 — Ansible', status: 'planned', note: 'Playbooks, roles, Vault, dynamic inventory' },
+        { name: 'M14 — Monitoring (Prometheus, Grafana, ELK)', status: 'planned', note: 'Node exporter, Alertmanager, Kafka, ELK, K8s monitoring' },
+        { name: 'M15 — Python for DevOps', status: 'planned', note: 'Boto3, Docker SDK, K8s client, Flask, automation scripts' },
+        { name: 'M16 — MLOps & AI in DevOps', status: 'planned', note: 'MLflow, Kubeflow, agentic AI, MCP, AI-native DevOps' },
+      ]
+    },
+    {
+      id: 'cs-fundamentals',
+      name: 'CS Fundamentals & Placement Prep',
+      desc: "Striver's Pinnacle+ (Take U Forward) — DSA, OS, CN, OOP, SQL, LLD",
+      icon: 'code-2',
+      status: 'active',
+      pct: 8,
+      subtopics: [
+        { name: 'DSA — Data Structures & Algorithms', status: 'active', note: 'Arrays (basic patterns done) → 2-pointer, sliding window, sorting…' },
+        { name: 'OOP — Object Oriented Programming', status: 'planned', note: 'Classes, inheritance, polymorphism, abstraction' },
+        { name: 'SQL — Databases & Query Language', status: 'planned', note: 'Joins, aggregations, indexing, transactions' },
+        { name: 'CN — Computer Networks', status: 'planned', note: 'OSI/TCP-IP model, DNS, HTTP/HTTPS, TCP, subnetting' },
+        { name: 'OS — Operating Systems', status: 'planned', note: 'Processes, threads, scheduling, memory management' },
+        { name: 'LLD — Low Level Design', status: 'planned', note: 'SOLID principles, design patterns, class diagrams' },
+      ]
+    },
+    {
+      id: 'paperlive',
+      name: 'Paperlive',
+      desc: 'Structured placement & DevOps program — starts 23 March 2026',
+      icon: 'calendar-clock',
+      status: 'upcoming',
+      pct: 0,
+      subtopics: [
+        { name: 'Curriculum not yet unlocked', status: 'planned', note: '// update tracker on 23 March once modules are available' },
+      ]
+    }
+  ]
+};
+
+/* ── STORAGE ── */
+const STORAGE_KEY = 'sm_tracker_v3';
+
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) return JSON.parse(saved);
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_DATA));
+}
+
+function saveData(data) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) {}
+}
+
+/* Working copy — modified by edit panel, committed on Save */
+let DATA = loadData();
+let EDITS = {}; // { trackId: { pct, status, subtopics: [{status}] } }
+
+/* ── RENDER ── */
+function badgeClass(status) {
+  if (status === 'active')   return 'badge-active';
+  if (status === 'done')     return 'badge-done';
+  return 'badge-upcoming';
+}
+function badgeLabel(status) {
+  if (status === 'active')   return 'Active';
+  if (status === 'done')     return 'Complete ✓';
+  return 'Upcoming';
+}
+function pillClass(s) {
+  if (s === 'done')    return 'pill-done';
+  if (s === 'active')  return 'pill-active';
+  return 'pill-planned';
+}
+function pillLabel(s) {
+  if (s === 'done')    return 'Done';
+  if (s === 'active')  return 'In Progress';
+  return 'Planned';
+}
+function rungClass(s) { return s; }
+
+function renderTracks(data) {
+  const container = document.getElementById('tracksContainer');
+  container.innerHTML = '';
+
+  // Update stats
+  let doneCount = 0, activeCount = 0, plannedCount = 0;
+  data.tracks.forEach(t => t.subtopics.forEach(s => {
+    if (s.status === 'done') doneCount++;
+    else if (s.status === 'active') activeCount++;
+    else plannedCount++;
+  }));
+  document.getElementById('statDone').innerHTML = `${doneCount} <span>subtopics</span>`;
+  document.getElementById('statActive').innerHTML = `${activeCount} <span style="font-size:16px;color:var(--text-muted);">active</span>`;
+  document.getElementById('statPlanned').innerHTML = `${plannedCount} <span>queued</span>`;
+
+  // Update last updated
+  if (data.lastUpdated) {
+    document.getElementById('trackerMeta').textContent =
+      `// last updated: ${data.lastUpdated} · Cloud Infrastructure & DevOps path`;
+  }
+
+  data.tracks.forEach((track, ti) => {
+    const div = document.createElement('div');
+    div.className = `track expanded`;
+    div.dataset.status = track.status;
+    div.dataset.trackId = track.id;
+
+    const subItems = track.subtopics.map((sub, si) =>
+      `<div class="subtopic-row ${sub.status}" data-track="${track.id}" data-si="${si}">
+        <span class="rung-dot ${rungClass(sub.status)}"></span>
+        <div class="subtopic-info">
+          <div class="subtopic-name">${escHtml(sub.name)}</div>
+          <div class="subtopic-note">${escHtml(sub.note || '')}</div>
+        </div>
+        <span class="status-pill ${pillClass(sub.status)}">${pillLabel(sub.status)}</span>
+      </div>`
+    ).join('');
+
+    const pctLabel = track.status === 'upcoming'
+      ? `<span class="track-pct" style="color:#ffb800;">Starting Soon</span>`
+      : `<span class="track-pct">${track.pct}%</span>`;
+
+    div.innerHTML = `
+      <div class="track-header" onclick="toggleTrack(this)">
+        <div class="track-icon"><i data-lucide="${track.icon}"></i></div>
+        <div class="track-title-group">
+          <div class="track-name">${escHtml(track.name)}</div>
+          <div class="track-desc">${escHtml(track.desc)}</div>
+        </div>
+        <div class="track-right">
+          <span class="track-badge ${badgeClass(track.status)}">${badgeLabel(track.status)}</span>
+          <div class="track-progress-wrap">
+            ${pctLabel}
+            <div class="track-bar">
+              <div class="track-bar-fill" style="width:${track.pct}%"></div>
+            </div>
+          </div>
+        </div>
+        <span class="track-toggle-icon">＋</span>
+      </div>
+      <div class="track-body">
+        <div class="subtopic-ladder">${subItems}</div>
+      </div>
+    `;
+    container.appendChild(div);
+  });
+
+  lucide.createIcons();
+
+  // Animate bars
+  document.querySelectorAll('.track-bar-fill').forEach(el => {
+    const target = el.style.width;
+    el.style.width = '0';
+    setTimeout(() => { el.style.width = target; }, 80);
+  });
+}
+
+function escHtml(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function toggleTrack(header) {
+  header.closest('.track').classList.toggle('expanded');
+}
+
+/* ── EDIT PANEL ── */
+function buildEditPanel(data) {
+  const body = document.getElementById('editPanelBody');
+  body.innerHTML = '';
+
+  // Last updated field
+  const luDiv = document.createElement('div');
+  luDiv.className = 'ep-track';
+  luDiv.innerHTML = `
+    <div class="ep-track-name">// Meta</div>
+    <div class="ep-row">
+      <label>Updated</label>
+      <input type="text" id="ep-last-updated" value="${escHtml(data.lastUpdated || '')}"
+        style="flex:1;font-family:var(--font-mono);font-size:11px;background:var(--bg);border:1px solid var(--border-accent);color:var(--text);padding:5px 8px;border-radius:4px;letter-spacing:0.04em;">
+    </div>
+  `;
+  body.appendChild(luDiv);
+
+  data.tracks.forEach((track, ti) => {
+    const block = document.createElement('div');
+    block.className = 'ep-track';
+    block.dataset.trackIndex = ti;
+
+    const subRows = track.subtopics.map((sub, si) => `
+      <div class="ep-sub-row">
+        <span class="ep-sub-name" title="${escHtml(sub.name)}">${escHtml(sub.name)}</span>
+        <select class="ep-sub-status" data-ti="${ti}" data-si="${si}" onchange="handleSubChange(this)">
+          <option value="done"    ${sub.status==='done'?'selected':''}>Done</option>
+          <option value="active"  ${sub.status==='active'?'selected':''}>Active</option>
+          <option value="planned" ${sub.status==='planned'?'selected':''}>Planned</option>
+        </select>
+      </div>
+    `).join('');
+
+    block.innerHTML = `
+      <div class="ep-track-name">${escHtml(track.name)}</div>
+      <div class="ep-row">
+        <label>Progress</label>
+        <input type="range" class="ep-range" min="0" max="100" value="${track.pct}"
+          data-ti="${ti}" oninput="handlePctChange(this)">
+        <span class="ep-pct" id="ep-pct-${ti}">${track.pct}%</span>
+      </div>
+      <div class="ep-row">
+        <label>Status</label>
+        <select class="ep-status" data-ti="${ti}" onchange="handleStatusChange(this)">
+          <option value="active"   ${track.status==='active'?'selected':''}>Active</option>
+          <option value="done"     ${track.status==='done'?'selected':''}>Done</option>
+          <option value="upcoming" ${track.status==='upcoming'?'selected':''}>Upcoming</option>
+        </select>
+      </div>
+      <div class="ep-divider">Subtopics</div>
+      <div class="ep-subtopics">${subRows}</div>
+    `;
+    body.appendChild(block);
+  });
+}
+
+function handlePctChange(el) {
+  const ti = parseInt(el.dataset.ti);
+  DATA.tracks[ti].pct = parseInt(el.value);
+  document.getElementById(`ep-pct-${ti}`).textContent = el.value + '%';
+}
+function handleStatusChange(el) {
+  const ti = parseInt(el.dataset.ti);
+  DATA.tracks[ti].status = el.value;
+}
+function handleSubChange(el) {
+  const ti = parseInt(el.dataset.ti);
+  const si = parseInt(el.dataset.si);
+  DATA.tracks[ti].subtopics[si].status = el.value;
+}
+
+function toggleEditPanel() {
+  const panel = document.getElementById('editPanel');
+  const btn   = document.getElementById('editBtn');
+  const isOpen = panel.classList.contains('open');
+  if (isOpen) {
+    panel.classList.remove('open');
+    btn.classList.remove('active');
+    btn.innerHTML = '<span class="edit-dot"></span> Edit Progress';
+  } else {
+    buildEditPanel(DATA);
+    panel.classList.add('open');
+    btn.classList.add('active');
+    btn.innerHTML = '<span class="edit-dot"></span> Close Editor';
+  }
+}
+
+function saveAllChanges() {
+  // Update last updated
+  const luInput = document.getElementById('ep-last-updated');
+  if (luInput) DATA.lastUpdated = luInput.value;
+
+  saveData(DATA);
+  renderTracks(DATA);
+  showToast();
+}
+
+function resetToDefaults() {
+  if (!confirm('Reset all progress to defaults? This cannot be undone.')) return;
+  DATA = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  localStorage.removeItem(STORAGE_KEY);
+  buildEditPanel(DATA);
+  renderTracks(DATA);
+  showToast('✓ Reset to defaults');
+}
+
+function showToast(msg) {
+  const el = document.getElementById('saveToast');
+  el.textContent = msg || '✓ Progress saved to browser';
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2400);
+}
+
+/* ── INIT ── */
+renderTracks(DATA);
+
+</script>
+</body>
+</html>

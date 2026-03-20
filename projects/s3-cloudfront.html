@@ -1,259 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Secure Static Website with S3 and CloudFront | Srestha Mridha</title>
-
 <link rel="stylesheet" href="../css/style.css">
-
 </head>
-
-
 <body>
 
-<div id="lightbox">
-
-<span id="lightbox-close">&times;</span>
-
-<img id="lightbox-img">
-
-</div>
+<div id="lightbox"><span id="lightbox-close">&times;</span><img id="lightbox-img"></div>
 
 <nav class="navbar">
-
-<div class="logo">Srestha Mridha</div>
-
-<ul class="nav-links">
-<li><a href="../index.html">Home</a></li>
-</ul>
-
+  <div class="logo">
+    <a href="../index.html" style="text-decoration:none;color:inherit;">
+      <span class="logo-bracket">[</span>srestha@cloud<span class="logo-bracket">]</span>
+    </a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="../index.html#projects">Projects</a></li>
+    <li><a href="../index.html#learning">Learning</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
 </nav>
 
 
-
 <section class="section project-layout">
-
 <div class="container">
 
-<h1>Secure Static Website Deployment with Amazon S3 and CloudFront</h1>
-
-<div class="project-summary">
-
-<div class="summary-item">
-<span class="summary-label">Architecture</span>
-<span>S3 + CloudFront CDN</span>
-</div>
-
-<div class="summary-item">
-<span class="summary-label">Security</span>
-<span>Origin Access Control</span>
-</div>
-
-<div class="summary-item">
-<span class="summary-label">Access</span>
-<span>Public S3 Blocked</span>
-</div>
-
-<div class="summary-item">
-<span class="summary-label">Delivery</span>
-<span>HTTPS via CloudFront</span>
-</div>
-
-</div>
-
-<p>
-This project demonstrates a secure static website architecture using
-Amazon S3 as the storage layer and Amazon CloudFront as the content
-delivery network (CDN). The S3 bucket remains private while CloudFront
-serves the website globally through edge locations using Origin
-Access Control (OAC).
-</p>
-
-
-
-<h2>Objective</h2>
-
-<ul>
-
-<li>Deploy a static website using AWS infrastructure</li>
-<li>Prevent direct public access to the S3 bucket</li>
-<li>Deliver website content securely via CloudFront CDN</li>
-<li>Enable object versioning for recovery and change tracking</li>
-
-</ul>
-
-
-
-<h2>Architecture Overview</h2>
-
-<p>The architecture separates storage and delivery layers:</p>
-
-<p>
-
-<strong>
-User → CloudFront CDN → Private S3 Bucket (Origin)
-</strong>
-
-</p>
-
-<p>
-
-CloudFront handles HTTPS delivery, caching, and secure origin
-communication while the S3 bucket remains private with public
-access fully blocked.
-
-</p>
-
-
-
-<h2>S3 Storage Layer</h2>
-
-<ul>
-
-<li>Bucket region: eu-west-2 (London)</li>
-<li>Bucket versioning enabled</li>
-<li>Block Public Access: Enabled</li>
-<li>Bucket used strictly as private origin storage</li>
-
-</ul>
-
-<p>
-
-Public access is disabled to ensure objects cannot be accessed
-directly from S3.
-
-</p>
-
-
-
-<h2>Security Design</h2>
-
-<ul>
-
-<li>S3 Block Public Access enabled</li>
-<li>CloudFront Origin Access Control (OAC) configured</li>
-<li>Direct S3 URL access blocked</li>
-<li>All content served only through CloudFront</li>
-
-</ul>
-
-<p>
-
-This prevents origin bypass attacks where users attempt to access
-the storage layer directly.
-
-</p>
-
-
-
-<h2>CloudFront Distribution</h2>
-
-<ul>
-
-<li>CloudFront used as CDN layer</li>
-<li>HTTPS enabled for secure delivery</li>
-<li>Edge caching enabled</li>
-<li>Origin Access Control configured for private S3 access</li>
-
-</ul>
-
-<p>
-
-CloudFront retrieves content from the private S3 origin and
-distributes it globally through AWS edge locations.
-
-</p>
-
-
-
-<h2>Access Validation</h2>
-
-<ul>
-
-<li>Website successfully served via CloudFront distribution</li>
-<li>Direct S3 access verified as blocked</li>
-<li>AccessDenied error confirmed when bypassing CDN</li>
-
-</ul>
-
-<p>
-
-This confirms that the S3 bucket is secured and accessible only
-through the CloudFront distribution.
-
-</p>
-
-
-
-<h2>Screenshots & Evidence</h2>
-
-<div class="image-grid">
-
-<img src="../assets/images/s3-cloudfront/01-s3-bucket-properties.png"
-alt="S3 Bucket Properties">
-
-<img src="../assets/images/s3-cloudfront/02-s3-permissions.png"
-alt="S3 Permissions">
-
-<img src="../assets/images/s3-cloudfront/03-cloudfront-distribution.png"
-alt="CloudFront Distribution">
-
-<img src="../assets/images/s3-cloudfront/04-cloudfront-website-access.png"
-alt="Website Served Through CloudFront">
-
-<img src="../assets/images/s3-cloudfront/05-cloudfront-access-denied-error.png"
-alt="Direct S3 Access Denied">
-
-<img src="../assets/images/s3-cloudfront/06-architecture-diagram.png"
-alt="Architecture Diagram">
+  <h1>Secure Static Website Deployment with Amazon S3 and CloudFront</h1>
+
+  <div class="project-summary">
+    <div class="summary-item">
+      <span class="summary-label">Architecture</span>
+      <span>S3 + CloudFront CDN</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Security</span>
+      <span>Origin Access Control</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Access</span>
+      <span>Public S3 Blocked</span>
+    </div>
+    <div class="summary-item">
+      <span class="summary-label">Delivery</span>
+      <span>HTTPS via CloudFront</span>
+    </div>
+  </div>
+
+  <p>
+    This project demonstrates a secure static website architecture using Amazon S3 as the
+    storage layer and Amazon CloudFront as the content delivery network. The S3 bucket remains
+    private while CloudFront serves the website globally through edge locations using
+    Origin Access Control (OAC).
+  </p>
+
+  <h2>Objective</h2>
+  <ul>
+    <li>Deploy a static website using AWS infrastructure</li>
+    <li>Prevent direct public access to the S3 bucket</li>
+    <li>Deliver website content securely via CloudFront CDN</li>
+    <li>Enable object versioning for recovery and change tracking</li>
+  </ul>
+
+  <h2>Architecture Overview</h2>
+  <p><strong>User → CloudFront CDN → Private S3 Bucket (Origin)</strong></p>
+  <p>
+    CloudFront handles HTTPS delivery, caching, and secure origin communication while the
+    S3 bucket remains private with public access fully blocked.
+  </p>
+
+  <details class="case-step" open>
+    <summary>S3 Storage Layer</summary>
+    <ul>
+      <li>Bucket region: eu-west-2 (London)</li>
+      <li>Bucket versioning enabled</li>
+      <li>Block Public Access: Enabled</li>
+      <li>Bucket used strictly as private origin storage</li>
+    </ul>
+    <p>Public access is disabled to ensure objects cannot be accessed directly from S3.</p>
+  </details>
+
+  <details class="case-step">
+    <summary>Security Design</summary>
+    <ul>
+      <li>S3 Block Public Access enabled</li>
+      <li>CloudFront Origin Access Control (OAC) configured</li>
+      <li>Direct S3 URL access blocked</li>
+      <li>All content served only through CloudFront</li>
+    </ul>
+    <p>This prevents origin bypass attacks where users attempt to access the storage layer directly.</p>
+  </details>
+
+  <details class="case-step">
+    <summary>CloudFront Distribution</summary>
+    <ul>
+      <li>HTTPS enabled for secure delivery</li>
+      <li>Edge caching enabled</li>
+      <li>Origin Access Control configured for private S3 access</li>
+      <li>Content distributed globally through AWS edge locations</li>
+    </ul>
+  </details>
+
+  <details class="case-step">
+    <summary>Access Validation</summary>
+    <ul>
+      <li>Website successfully served via CloudFront distribution</li>
+      <li>Direct S3 access verified as blocked</li>
+      <li>AccessDenied error confirmed when bypassing CDN</li>
+    </ul>
+    <p>This confirms that the S3 bucket is secured and accessible only through the CloudFront distribution.</p>
+  </details>
+
+  <h2>Screenshots & Evidence</h2>
+  <div class="image-grid">
+    <img src="../assets/images/s3-cloudfront/01-s3-bucket-properties.png" alt="S3 Bucket Properties">
+    <img src="../assets/images/s3-cloudfront/02-s3-permissions.png" alt="S3 Permissions">
+    <img src="../assets/images/s3-cloudfront/03-cloudfront-distribution.png" alt="CloudFront Distribution">
+    <img src="../assets/images/s3-cloudfront/04-cloudfront-website-access.png" alt="Website Served Through CloudFront">
+    <img src="../assets/images/s3-cloudfront/05-cloudfront-access-denied-error.png" alt="Direct S3 Access Denied">
+    <img src="../assets/images/s3-cloudfront/06-architecture-diagram.png" alt="Architecture Diagram">
+  </div>
+
+  <h2>Project Repository</h2>
+  <p>
+    <a href="https://github.com/SresthaMridha/aws-static-website-s3-cloudfront.git" target="_blank">
+      View the GitHub Repository →
+    </a>
+  </p>
+
+  <h2>Outcome</h2>
+  <p>
+    The deployment successfully implemented a secure static website architecture using Amazon S3
+    and CloudFront. By blocking direct S3 access and routing requests through CloudFront, the
+    system ensures controlled origin access while benefiting from global edge caching and
+    HTTPS delivery. This pattern is widely used for hosting static apps, documentation sites,
+    and front-end web applications in production environments.
+  </p>
 
 </div>
-
-<h2>Project Repository</h2>
-
-<p>
-
-<a href="https://github.com/SresthaMridha/aws-static-website-s3-cloudfront.git" target="_blank">
-View the GitHub Repository
-</a>
-
-</p>
-
-<h2>Outcome</h2>
-
-<p>
-
-The deployment successfully implemented a secure static website
-architecture using Amazon S3 and CloudFront. By blocking direct
-S3 access and routing requests through CloudFront, the system
-ensures controlled origin access while benefiting from global
-edge caching and HTTPS delivery.
-
-</p>
-
-<p>
-
-This architecture pattern is widely used for hosting static
-applications, documentation sites, and front-end web applications
-in production environments.
-
-</p>
-
-
-</div>
-
 </section>
 
-
-
 <footer class="footer">
-
-<p>© 2026 Srestha Mridha</p>
-
+  <p>© 2026 Srestha Mridha &nbsp;·&nbsp; <a href="../index.html">Back to Home</a></p>
 </footer>
-<script src="../js/script.js"></script>
 
+<script src="../js/script.js"></script>
 </body>
 </html>
